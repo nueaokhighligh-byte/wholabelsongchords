@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Who Label - Chord & Lyrics</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Sarabun:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #ffffff;
+            --card-bg: #ffffff;
+            --card-border: #e5e7eb;
+            --primary: #4b5563;
+            --primary-hover: #374151;
+            --chord-color: #6b7280;
+            --text-main: #4b5563;
+            --text-muted: #6b7280;
+            --accent-red: #6b7280;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Kanit', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        /* Header Bar */
+        header {
+            background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 20px rgba(17, 24, 39, 0.08);
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            color: var(--primary);
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-top: 4px;
+        }
+
+        .channel-links {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+
+        .channel-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #f3f4f6;
+            color: #4b5563;
+            border: 1px solid #d1d5db;
+            padding: 6px 12px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .channel-btn:hover {
+            background: #e5e7eb;
+            color: #374151;
+            transform: translateY(-1px);
+        }
+
+        /* Sticky Control Panel */
+        .control-panel {
+            position: sticky;
+            top: 10px;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            padding: 12px 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 8px 24px rgba(17, 24, 39, 0.1);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .label-text {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        select {
+            background: var(--bg-dark);
+            color: var(--text-main);
+            border: 1px solid var(--card-border);
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            outline: none;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        select:focus {
+            border-color: var(--primary);
+        }
+
+        /* Key Transpose Buttons */
+        .btn-key {
+            background: #f3f4f6;
+            color: var(--text-main);
+            border: 1px solid var(--card-border);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            font-size: 0.9rem;
+        }
+
+        .btn-key:hover {
+            background: var(--primary);
+            color: #ffffff;
+        }
+
+        .btn-key:active {
+            transform: scale(0.95);
+        }
+
+        .key-badge {
+            background: #f3f4f6;
+            color: var(--chord-color);
+            border: 1px solid #d1d5db;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            min-width: 75px;
+            text-align: center;
+        }
+
+        /* View Mode Toggle Buttons */
+        .view-toggle {
+            display: flex;
+            background: var(--bg-dark);
+            padding: 3px;
+            border-radius: 8px;
+            border: 1px solid var(--card-border);
+        }
+
+        .toggle-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .toggle-btn.active {
+            background: var(--primary);
+            color: #ffffff;
+        }
+
+        /* Main Grid Layout */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+        }
+
+        @media (min-width: 900px) {
+            .main-grid {
+                grid-template-columns: 1.2fr 0.8fr;
+            }
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 4px 16px rgba(17, 24, 39, 0.06);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: 12px;
+            margin-bottom: 16px;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        /* Chord Content Area */
+        .chord-box {
+            line-height: 2;
+            font-size: 1.05rem;
+            white-space: pre-wrap;
+            font-family: 'Sarabun', sans-serif;
+        }
+
+        .section-tag {
+            display: inline-block;
+            background: #f3f4f6;
+            color: var(--primary);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin: 12px 0 6px 0;
+            font-family: 'Kanit', sans-serif;
+        }
+
+        .chord {
+            color: var(--chord-color);
+            font-weight: 700;
+            font-family: monospace;
+            font-size: 1.15rem;
+            background: #f3f4f6;
+            padding: 1px 5px;
+            border-radius: 4px;
+            margin: 0 2px;
+        }
+
+        /* Image View */
+        .img-container {
+            text-align: center;
+        }
+
+        .img-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 4px 12px rgba(17, 24, 39, 0.12);
+        }
+
+        /* YouTube Container */
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 */
+            height: 0;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #111827;
+            border: 1px solid var(--card-border);
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .playlist-info {
+            margin-top: 14px;
+            padding: 12px;
+            background: var(--bg-dark);
+            border-radius: 8px;
+            border: 1px solid var(--card-border);
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .playlist-info a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .playlist-info a:hover {
+            text-decoration: underline;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        @media (max-width: 600px) {
+            header h1 { font-size: 1.4rem; }
+            .control-panel { padding: 10px; gap: 8px; }
+            .key-badge { min-width: 60px; font-size: 0.85rem; }
+            .btn-key { padding: 5px 8px; font-size: 0.8rem; }
+            .chord-box { font-size: 0.95rem; }
+            .chord { font-size: 1.05rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Header Section -->
+    <header>
+        <h1>🎵 Who Label Chord Center</h1>
+        <p>คอร์ดเพลงแท้ เปลี่ยนคีย์ได้ เล่นตามคลิปบน YouTube</p>
+        <div class="channel-links">
+            <a href="https://www.youtube.com/@WhoLabel" target="_blank" class="channel-btn">
+                ▶ ช่อง YouTube ศิลปิน (@WhoLabel)
+            </a>
+            <a href="https://youtube.com/playlist?list=PLtPlYLj1E1RH4DBUNncO97Jc4t8Mx6C6M" target="_blank" class="channel-btn">
+                📜 เพลย์ลิสต์รวมเพลงทั้งหมด
+            </a>
+        </div>
+    </header>
+
+    <!-- Control Panel -->
+    <div class="control-panel">
+        <div class="control-group">
+            <span class="label-text">เลือกเพลง:</span>
+            <select id="songSelect" onchange="switchSong()">
+                <option value="wan_fah_mon">วันฟ้าหม่น (Overcast) - Who Label</option>
+                <!-- เพิ่มเพลงถัดไปของ Who Label ได้ที่นี่ -->
+            </select>
+        </div>
+
+        <div class="control-group">
+            <span class="label-text">ปรับคีย์:</span>
+            <button class="btn-key" onclick="transpose(-7)">-7</button>
+            <button class="btn-key" onclick="transpose(-2)">-2</button>
+            <button class="btn-key" onclick="transpose(-1)">-1</button>
+            <span class="key-badge" id="keyDisplay">Key: A (0)</span>
+            <button class="btn-key" onclick="transpose(1)">+1</button>
+            <button class="btn-key" onclick="transpose(2)">+2</button>
+            <button class="btn-key" onclick="transpose(7)">+7</button>
+            <button class="btn-key" onclick="resetKey()" style="background:#f3f4f6;">คีย์เดิม</button>
+        </div>
+
+        <div class="view-toggle">
+            <button class="toggle-btn active" id="btnModeText" onclick="setMode('text')">คอร์ดข้อความ</button>
+            <button class="toggle-btn" id="btnModeImg" onclick="setMode('img')">รูปคอร์ด (PNG)</button>
+        </div>
+    </div>
+
+    <!-- Main Content Layout -->
+    <div class="main-grid">
+        <!-- Chord Viewer -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title" id="songTitle">วันฟ้าหม่น - Who Label</h2>
+                <span class="label-text" id="originalKeyTag" style="color:var(--chord-color)">Key Original: A</span>
+            </div>
+
+            <!-- Text View -->
+            <div id="textView" class="chord-box">
+                <div id="chordDisplay"></div>
+            </div>
+
+            <!-- Image View -->
+            <div id="imgView" class="img-container hidden">
+                <p style="margin-bottom: 10px; color: var(--text-muted); font-size:0.85rem;">
+                    *รูปภาพคอร์ดต้นฉบับ
+                </p>
+                <img id="chordImg" src="image_e6762f.png" alt="รูปคอร์ดเพลงวันฟ้าหม่น">
+            </div>
+        </div>
+
+        <!-- YouTube Player -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">🎥 วิดีโอเพลง (YouTube)</h2>
+            </div>
+            <div class="video-wrapper">
+                <iframe id="youtubeIframe" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            <div class="playlist-info">
+                💡 <strong>เคล็ดลับ:</strong> กดปุ่ม +1, +2, -1, -2 เพื่อเปลี่ยนคีย์คอร์ดให้เข้ากับเสียงร้องของคุณได้ทันที!
+                <br><br>
+                🔗 ดูเพลงอื่นๆ เพิ่มเติมได้ใน <a href="https://youtube.com/playlist?list=PLtPlYLj1E1RH4DBUNncO97Jc4t8Mx6C6M" target="_blank">Who Label Official Playlist</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Chromatic scale for transposition
+    const chromaticScale = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+
+    // Songs Database
+    const songs = {
+        'wan_fah_mon': {
+            title: 'วันฟ้าหม่น (Overcast)',
+            artist: 'Who Label',
+            originalKey: 'A',
+            youtubeId: 'kD-BDlLMnuI',
+            imageFile: 'image_e6762f.png',
+            rawChords: `[Intro]
+[Amaj7] / [Dmaj7] / [F#m] / [E]
+
+[Verse 1]
+[Amaj7]
+Hey เธอยังจำมันได้รึเปล่า
+[Dmaj7]
+กับเรื่องราวที่เราได้พบ
+[F#m]              [E]
+แค่มองฟ้ามีฝนร่วงหล่นก็คิดขึ้นมา Calling you
+[Amaj7]
+Hey เราก็เดินทางกันมานาน
+[Dmaj7]          [F#m]
+จากวันวานที่ฉันนั้นคิดว่ามันช่างเร็ว
+      [E]
+ก็พึ่งรู้ว่ามันผ่านเป็นปี
+
+[Pre-Chorus]
+      [D]   [E]   [F#m]         [Dbm7]
+ที่แห่งนี้ที่เรา ได้ร่วมสร้างทุกความทรงจำ
+      [D]   [E]   [F#m]
+มีแค่เธอและฉัน จับมือกันแม้ฟ้าไม่สดใส
+      [D]       [E]   [F#m]
+เพราะว่าเธอคือความรัก ที่ยังสถิตอยู่ในใจ
+      [D]       [E]   [F#m]
+ไม่ว่าจะเมื่อไหร่ พวกเราจะอยู่ด้วยกัน
+
+[Chorus]
+[Amaj7]               [Dmaj7]
+ก็เชื่อมั่นในทุกวันว่าเธอกับฉัน จะยังเคียงข้างอยู่
+    [F#m]             [E]
+เป็นรักให้กันจากตรงนี้ เป็นความห่วงใยด้วยรักและหวังดี
+[Amaj7]               [Dmaj7]
+ขอบคุณที่เราได้มาพบกัน จากที่ตรงนั้นสุดขอบฟ้า
+    [F#m]             [E]
+ดูแลตัวเองดีๆนะ เรื่องราวใดๆเรานั้นก็ยังคงจดจำ
+
+[Outro]
+[Amaj7] / [Dmaj7] / [F#m] / [E]
+เรานั้นก็ยังคงจดจำ`
+        }
+    };
+
+    let currentSongKey = 'wan_fah_mon';
+    let semitoneShift = 0;
+
+    // Helper to normalize note name
+    function normalizeNote(note) {
+        const flatsMap = { 'Db': 'C#', 'Eb': 'D#', 'Gb': 'F#', 'Ab': 'G#', 'Bb': 'A#' };
+        return flatsMap[note] || note;
+    }
+
+    // Transpose a single note
+    function transposeNote(note, shift) {
+        const cleanNote = normalizeNote(note);
+        const index = chromaticScale.indexOf(cleanNote);
+        if (index === -1) return note;
+
+        let newIndex = (index + shift) % 12;
+        if (newIndex < 0) newIndex += 12;
+        return chromaticScale[newIndex];
+    }
+
+    // Transpose full chord (handles root, extension, slash bass)
+    function transposeChord(chord, shift) {
+        return chord.replace(/([A-G][b#]?)([^/]*)(?:\/([A-G][b#]?))?/g, (match, root, ext, bass) => {
+            const newRoot = transposeNote(root, shift);
+            const newBass = bass ? '/' + transposeNote(bass, shift) : '';
+            return newRoot + (ext || '') + newBass;
+        });
+    }
+
+    // Calculate current Key Name
+    function getCurrentKeyName() {
+        const origKey = songs[currentSongKey].originalKey;
+        return transposeNote(origKey, semitoneShift);
+    }
+
+    // Render song content
+    function render() {
+        const song = songs[currentSongKey];
+        document.getElementById('songTitle').innerText = `${song.title} - ${song.artist}`;
+        document.getElementById('originalKeyTag').innerText = `Key ต้นฉบับ: ${song.originalKey}`;
+        document.getElementById('youtubeIframe').src = `https://www.youtube.com/embed/${song.youtubeId}`;
+        document.getElementById('chordImg').src = song.imageFile;
+
+        // Key badge text
+        const curKey = getCurrentKeyName();
+        const shiftSign = semitoneShift > 0 ? `+${semitoneShift}` : semitoneShift;
+        document.getElementById('keyDisplay').innerText = `Key: ${curKey} (${shiftSign})`;
+
+        // Parse chords and tags
+        let text = song.rawChords;
+
+        text = text.replace(/\[(Intro|Verse \d+|Verse|Pre-Chorus|Chorus|Outro|Solo|Bridge)\]/gi, (m, tag) => {
+            return `<div class="section-tag">${tag}</div>`;
+        });
+
+        text = text.replace(/\[([A-G][b#]?[^\]]*)\]/g, (match, chord) => {
+            const newChord = transposeChord(chord, semitoneShift);
+            return `<span class="chord">${newChord}</span>`;
+        });
+
+        document.getElementById('chordDisplay').innerHTML = text;
+    }
+
+    function transpose(amount) {
+        semitoneShift += amount;
+        render();
+    }
+
+    function resetKey() {
+        semitoneShift = 0;
+        render();
+    }
+
+    function switchSong() {
+        currentSongKey = document.getElementById('songSelect').value;
+        semitoneShift = 0;
+        render();
+    }
+
+    function setMode(mode) {
+        const textV = document.getElementById('textView');
+        const imgV = document.getElementById('imgView');
+        const btnT = document.getElementById('btnModeText');
+        const btnI = document.getElementById('btnModeImg');
+
+        if (mode === 'text') {
+            textV.classList.remove('hidden');
+            imgV.classList.add('hidden');
+            btnT.classList.add('active');
+            btnI.classList.remove('active');
+        } else {
+            textV.classList.add('hidden');
+            imgV.classList.remove('hidden');
+            btnT.classList.remove('active');
+            btnI.classList.add('active');
+        }
+    }
+
+    // Initial Load
+    render();
+</script>
+
+</body>
+</html>
+<!-- ปุ่มเปิดไฟล์ PDF ในแท็บใหม่ -->
+<a href="song1.pdf" target="_blank" class="pdf-btn">
+   📄 เปิดดูไฟล์คอร์ดเพลง (PDF)
+</a>
