@@ -156,6 +156,12 @@
             font-size: 0.9rem;
         }
 
+        .key-step-button {
+            min-width: 42px;
+            font-size: 1.25rem;
+            line-height: 1;
+        }
+
         .btn-key:hover {
             background: var(--primary);
             color: #ffffff;
@@ -175,6 +181,7 @@
             font-size: 0.95rem;
             min-width: 75px;
             text-align: center;
+            white-space: nowrap;
         }
 
         /* View Mode Toggle Buttons */
@@ -365,13 +372,9 @@
 
         <div class="control-group">
             <span class="label-text">ปรับคีย์:</span>
-            <button class="btn-key" onclick="transpose(-7)">-7</button>
-            <button class="btn-key" onclick="transpose(-2)">-2</button>
-            <button class="btn-key" onclick="transpose(-1)">-1</button>
+            <button class="btn-key key-step-button" onclick="transpose(-1)" aria-label="ลดคีย์ลงหนึ่งเสียง">−</button>
             <span class="key-badge" id="keyDisplay">Key: A (0)</span>
-            <button class="btn-key" onclick="transpose(1)">+1</button>
-            <button class="btn-key" onclick="transpose(2)">+2</button>
-            <button class="btn-key" onclick="transpose(7)">+7</button>
+            <button class="btn-key key-step-button" onclick="transpose(1)" aria-label="เพิ่มคีย์ขึ้นหนึ่งเสียง">+</button>
             <button class="btn-key" onclick="resetKey()" style="background:#f3f4f6;">คีย์เดิม</button>
         </div>
 
@@ -413,7 +416,7 @@
                 <iframe id="youtubeIframe" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
             <div class="playlist-info">
-                💡 <strong>เคล็ดลับ:</strong> กดปุ่ม +1, +2, -1, -2 เพื่อเปลี่ยนคีย์คอร์ดให้เข้ากับเสียงร้องของคุณได้ทันที!
+                💡 <strong>เคล็ดลับ:</strong> กดปุ่ม − หรือ + เพื่อเปลี่ยนคีย์ทีละหนึ่งเสียง โดยระบบจะจำกัดช่วงไว้ที่ -7 ถึง +7
                 <br><br>
                 🔗 ดูเพลงอื่นๆ เพิ่มเติมได้ใน <a href="https://youtube.com/playlist?list=PLtPlYLj1E1RH4DBUNncO97Jc4t8Mx6C6M" target="_blank">Who Label Official Playlist</a>
             </div>
@@ -522,7 +525,7 @@ Hey เราก็เดินทางกันมานาน
         // Key badge text
         const curKey = getCurrentKeyName();
         const shiftSign = semitoneShift > 0 ? `+${semitoneShift}` : semitoneShift;
-        document.getElementById('keyDisplay').innerText = `Key: ${curKey} (${shiftSign})`;
+        document.getElementById('keyDisplay').innerText = `Key: ${curKey} | เปลี่ยนคีย์: ${shiftSign}`;
 
         // Parse chords and tags
         let text = song.rawChords;
@@ -540,7 +543,7 @@ Hey เราก็เดินทางกันมานาน
     }
 
     function transpose(amount) {
-        semitoneShift += amount;
+        semitoneShift = Math.max(-7, Math.min(7, semitoneShift + amount));
         render();
     }
 
