@@ -4,12 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Who Label - Chord & Lyrics</title>
-    <!-- Discord & Social Media Preview Meta Tags -->
-<meta property="og:type" content="website" />
-<meta property="og:title" content="wholabelsongchords" />
-<meta property="og:description" content="แหล่งรวมคอร์ดเพลง wholabelsongchords" />
-<meta property="og:url" content="https://nueaokhighligh-byte.github.io/wholabelsongchords/" />
-<meta name="theme-color" content="#5865F2" /> <!-- สีแถบ Embed ใน Discord -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Sarabun:wght@400;500;600&display=swap" rel="stylesheet">
@@ -20,11 +14,11 @@
             --card-border: #e5e7eb;
             --primary: #4b5563;
             --primary-hover: #374151;
-            --chord-color: #6b7280;
+            --chord-color: #ea580c;
             --text-main: #4b5563;
             --text-muted: #6b7280;
             --accent-red: #6b7280;
-        }
+        }ป
 
         * {
             box-sizing: border-box;
@@ -59,24 +53,10 @@
             box-shadow: 0 4px 20px rgba(17, 24, 39, 0.08);
         }
 
-        header h1 {
-            font-size: 1.8rem;
-            color: var(--primary);
-            font-weight: 700;
-            letter-spacing: 0.5px;
-        }
-
-        header p {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            margin-top: 4px;
-        }
-
         .channel-links {
             display: flex;
             justify-content: center;
             gap: 10px;
-            margin-top: 12px;
             flex-wrap: wrap;
         }
 
@@ -219,13 +199,55 @@
         /* Main Grid Layout */
         .main-grid {
             display: grid;
-            grid-template-columns: 1fr;
+            grid-template-columns: 230px minmax(0, 1fr);
             gap: 16px;
         }
 
-        @media (min-width: 900px) {
+        .sidebar {
+            align-self: start;
+            position: sticky;
+            top: 10px;
+        }
+
+        .sidebar-title {
+            margin-bottom: 12px;
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+
+        .upcoming-song {
+            padding: 12px;
+            margin-top: 10px;
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            background: #f9fafb;
+        }
+
+        .upcoming-song strong {
+            display: block;
+            color: var(--text-main);
+            font-size: 0.95rem;
+        }
+
+        .upcoming-song span {
+            display: block;
+            margin-top: 4px;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        .content-column {
+            display: grid;
+            gap: 16px;
+        }
+
+        @media (max-width: 899px) {
             .main-grid {
-                grid-template-columns: 1.2fr 0.8fr;
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                position: static;
             }
         }
 
@@ -250,6 +272,35 @@
             font-size: 1.2rem;
             font-weight: 600;
             color: var(--primary);
+        }
+
+        .chord-summary {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+            padding: 12px;
+            background: #f9fafb;
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+        }
+
+        .chord-summary-title {
+            color: var(--text-main);
+            font-weight: 600;
+            margin-right: 4px;
+        }
+
+        .chord-summary-item {
+            display: inline-block;
+            padding: 3px 8px;
+            background: #fff7ed;
+            border: 1px solid #fdba74;
+            border-radius: 6px;
+            color: var(--chord-color);
+            font-family: monospace;
+            font-weight: 700;
         }
 
         /* Chord Content Area */
@@ -277,7 +328,7 @@
             font-weight: 700;
             font-family: monospace;
             font-size: 1.15rem;
-            background: #f3f4f6;
+            background: #fff7ed;
             padding: 1px 5px;
             border-radius: 4px;
             margin: 0 2px;
@@ -354,8 +405,6 @@
 <div class="container">
     <!-- Header Section -->
     <header>
-        <h1>🎵 Who Label Chord Center</h1>
-        <p>คอร์ดเพลงแท้ เปลี่ยนคีย์ได้ เล่นตามคลิปบน YouTube</p>
         <div class="channel-links">
             <a href="https://www.youtube.com/@WhoLabel" target="_blank" class="channel-btn">
                 ▶ ช่อง YouTube ศิลปิน (@WhoLabel)
@@ -384,47 +433,46 @@
             <button class="btn-key" onclick="resetKey()" style="background:#f3f4f6;">คีย์เดิม</button>
         </div>
 
-        <div class="view-toggle">
-            <button class="toggle-btn active" id="btnModeText" onclick="setMode('text')">คอร์ดข้อความ</button>
-            <button class="toggle-btn" id="btnModeImg" onclick="setMode('img')">รูปคอร์ด (PNG)</button>
-        </div>
     </div>
 
     <!-- Main Content Layout -->
     <div class="main-grid">
-        <!-- Chord Viewer -->
-        <div class="card">
-            <div class="card-header">
-                <h2 class="card-title" id="songTitle">วันฟ้าหม่น - Who Label</h2>
-                <span class="label-text" id="originalKeyTag" style="color:var(--chord-color)">Key Original: A</span>
+        <aside class="card sidebar">
+            <h2 class="sidebar-title">เพลงอื่นๆ</h2>
+            <div class="upcoming-song">
+                <strong>เพลงใหม่กำลังเตรียม</strong>
+                <span>รออัปเดตเร็วๆ นี้</span>
+            </div>
+            <div class="upcoming-song">
+                <strong>คอร์ดเพลงใหม่</strong>
+                <span>กำลังจัดเตรียมเนื้อหา</span>
+            </div>
+        </aside>
+
+        <div class="content-column">
+            <!-- YouTube Player -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">🎥 วิดีโอเพลง (YouTube)</h2>
+                </div>
+                <div class="video-wrapper">
+                    <iframe id="youtubeIframe" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <div class="playlist-info">
+                    🔗 ดูเพลงอื่นๆ เพิ่มเติมได้ใน <a href="https://youtube.com/playlist?list=PLtPlYLj1E1RH4DBUNncO97Jc4t8Mx6C6M" target="_blank">Who Label Official Playlist</a>
+                </div>
             </div>
 
-            <!-- Text View -->
-            <div id="textView" class="chord-box">
-                <div id="chordDisplay"></div>
-            </div>
-
-            <!-- Image View -->
-            <div id="imgView" class="img-container hidden">
-                <p style="margin-bottom: 10px; color: var(--text-muted); font-size:0.85rem;">
-                    *รูปภาพคอร์ดต้นฉบับ
-                </p>
-                <img id="chordImg" src="image_e6762f.png" alt="รูปคอร์ดเพลงวันฟ้าหม่น">
-            </div>
-        </div>
-
-        <!-- YouTube Player -->
-        <div class="card">
-            <div class="card-header">
-                <h2 class="card-title">🎥 วิดีโอเพลง (YouTube)</h2>
-            </div>
-            <div class="video-wrapper">
-                <iframe id="youtubeIframe" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            </div>
-            <div class="playlist-info">
-                💡 <strong>เคล็ดลับ:</strong> กดปุ่ม − หรือ + เพื่อเปลี่ยนคีย์ทีละหนึ่งเสียง โดยระบบจะจำกัดช่วงไว้ที่ -7 ถึง +7
-                <br><br>
-                🔗 ดูเพลงอื่นๆ เพิ่มเติมได้ใน <a href="https://youtube.com/playlist?list=PLtPlYLj1E1RH4DBUNncO97Jc4t8Mx6C6M" target="_blank">Who Label Official Playlist</a>
+            <!-- Chord Viewer -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title" id="songTitle">วันฟ้าหม่น - Who Label</h2>
+                    <span class="label-text" id="originalKeyTag" style="color:var(--chord-color)">Key Original: A</span>
+                </div>
+                <div class="chord-summary" id="chordSummary" aria-label="คอร์ดที่ใช้ในเพลง"></div>
+                <div class="chord-box">
+                    <div id="chordDisplay"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -526,12 +574,23 @@ Hey เราก็เดินทางกันมานาน
         document.getElementById('songTitle').innerText = `${song.title} - ${song.artist}`;
         document.getElementById('originalKeyTag').innerText = `Key ต้นฉบับ: ${song.originalKey}`;
         document.getElementById('youtubeIframe').src = `https://www.youtube.com/embed/${song.youtubeId}`;
-        document.getElementById('chordImg').src = song.imageFile;
 
         // Key badge text
         const curKey = getCurrentKeyName();
         const shiftSign = semitoneShift > 0 ? `+${semitoneShift}` : semitoneShift;
         document.getElementById('keyDisplay').innerText = `Key: ${curKey} | เปลี่ยนคีย์: ${shiftSign}`;
+
+        const sectionLabels = /^(Intro|Verse(?: \d+)?|Pre-Chorus|Chorus|Outro|Solo|Bridge)$/i;
+        const chords = [...new Set(
+            [...song.rawChords.matchAll(/\[([A-G][b#]?[^\]]*)\]/g)]
+                .map(([, chord]) => chord)
+                .filter(chord => !sectionLabels.test(chord))
+                .map(chord => transposeChord(chord, semitoneShift))
+        )];
+        document.getElementById('chordSummary').innerHTML =
+            `<span class="chord-summary-title">คอร์ดที่ใช้:</span>${chords
+                .map(chord => `<span class="chord-summary-item">${chord}</span>`)
+                .join('')}`;
 
         // Parse chords and tags
         let text = song.rawChords;
@@ -590,6 +649,6 @@ Hey เราก็เดินทางกันมานาน
 </body>
 </html>
 <!-- ปุ่มเปิดไฟล์ PDF ในแท็บใหม่ -->
-<a href="song1.pdf" target="_blank" class="pdf-btn">
+<a href="Overcast.pdf" target="_blank" class="pdf-btn">
    📄 เปิดดูไฟล์คอร์ดเพลง (PDF)
 </a>
