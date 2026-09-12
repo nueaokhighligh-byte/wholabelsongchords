@@ -84,6 +84,8 @@
         }
 
         .landing-page {
+            position: relative;
+            isolation: isolate;
             width: calc(100% + 24px);
             min-height: calc(100vh + 24px);
             margin: -12px;
@@ -91,17 +93,44 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            overflow: hidden;
             background: #242424;
         }
 
+        .landing-background-video,
+        .landing-video-overlay {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .landing-background-video {
+            z-index: -2;
+            object-fit: cover;
+        }
+
+        .landing-video-overlay {
+            z-index: -1;
+            background: rgba(0, 0, 0, 0.62);
+        }
+
         .landing-card {
+            position: relative;
+            z-index: 1;
             width: min(100%, 430px);
             padding: 34px 18px 30px;
             text-align: center;
-            border: 1px solid #3e3e3e;
+            border: 1px solid rgba(255, 255, 255, 0.28);
             border-radius: 28px;
-            background: #303030;
-            box-shadow: 0 16px 45px rgba(0, 0, 0, 0.28);
+            background: rgba(255, 255, 255, 0.07);
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.22),
+                inset 0 -1px 0 rgba(255, 255, 255, 0.08),
+                0 20px 55px rgba(0, 0, 0, 0.32);
+            -webkit-backdrop-filter: blur(14px) saturate(125%);
+            backdrop-filter: blur(14px) saturate(125%);
         }
 
         .landing-logo {
@@ -121,7 +150,7 @@
         }
 
         .landing-card p {
-            max-width: 300px;
+            max-width: 360px;
             margin: 4px auto 26px;
             color: #d1d5db;
             font-size: 0.95rem;
@@ -133,16 +162,18 @@
             border: 0;
             border-radius: 999px;
             padding: 14px 18px;
-            background: #050505;
+            background: #1688e8;
             color: #ffffff;
             font: inherit;
             cursor: pointer;
-            transition: transform 0.2s ease, background 0.2s ease;
+            box-shadow: 0 0 14px rgba(22, 136, 232, 0.42);
+            transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
         }
 
         .enter-chords-button:hover {
-            background: #111111;
-            transform: translateY(-1px);
+            background: #2b9df4;
+            transform: translateY(-3px);
+            box-shadow: 0 0 24px rgba(43, 157, 244, 0.72);
         }
 
         .landing-links {
@@ -159,17 +190,51 @@
             color: #ffffff;
             font-size: 0.95rem;
             text-decoration: none;
-            transition: transform 0.2s ease, background 0.2s ease;
+            box-shadow: 0 0 14px rgba(0, 0, 0, 0.28);
+            transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
         }
 
         .landing-links a:hover {
             background: #111111;
-            transform: translateY(-1px);
+            transform: translateY(-3px);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.42);
+        }
+
+        .landing-links a.youtube-link {
+            background: #e53935;
+            box-shadow: 0 0 14px rgba(229, 57, 53, 0.42);
+        }
+
+        .landing-links a.youtube-link:hover {
+            background: #f4514d;
+            box-shadow: 0 0 24px rgba(244, 81, 77, 0.72);
+        }
+
+        .landing-links a.mv-link {
+            background: linear-gradient(110deg, #ff4d6d, #ff9f43, #ffe66d, #4dd4ac, #4dabf7, #b197fc, #ff4d6d);
+            background-size: 240% 100%;
+            animation: rainbow-button 6s linear infinite;
+            box-shadow: 0 0 16px rgba(180, 120, 255, 0.48);
+        }
+
+        .landing-links a.mv-link:hover {
+            background-position: 100% 50%;
+            box-shadow: 0 0 26px rgba(255, 150, 220, 0.78);
+        }
+
+        .landing-links a:not(.youtube-link):not(.mv-link):hover {
+            background: #050505;
+            box-shadow: 0 0 14px rgba(0, 0, 0, 0.28);
+        }
+
+        @keyframes rainbow-button {
+            from { background-position: 0% 50%; }
+            to { background-position: 100% 50%; }
         }
 
         body.dark-mode .landing-card {
-            background: #303030;
-            border-color: #3e3e3e;
+            background: rgba(255, 255, 255, 0.07);
+            border-color: rgba(255, 255, 255, 0.28);
         }
 
         body.dark-mode .landing-card h1 {
@@ -185,7 +250,7 @@
         }
 
         body.dark-mode .enter-chords-button {
-            background: #050505;
+            background: #1688e8;
             border-color: transparent;
         }
 
@@ -725,6 +790,35 @@
             font-family: 'Sarabun', sans-serif;
         }
 
+        .lyrics-mode-toggle {
+            margin-bottom: 12px;
+            border: 1px solid #1688e8;
+            border-radius: 999px;
+            padding: 8px 16px;
+            background: transparent;
+            color: #1688e8;
+            font: inherit;
+            cursor: pointer;
+            transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+        }
+
+        .lyrics-mode-toggle:hover,
+        .lyrics-mode-toggle.active {
+            background: #1688e8;
+            color: #ffffff;
+            transform: translateY(-2px);
+        }
+
+        .chord-viewer-card.lyrics-only .chord-summary,
+        .chord-viewer-card.lyrics-only .piano-toggle,
+        .chord-viewer-card.lyrics-only .piano-panel {
+            display: none;
+        }
+
+        .chord-viewer-card.lyrics-only .chord-box {
+            line-height: 1.45;
+        }
+
         .section-tag {
             display: inline-block;
             background: #f3f4f6;
@@ -1113,15 +1207,19 @@
 <body>
 
 <section class="landing-page" id="landingPage">
+    <video class="landing-background-video" autoplay muted loop playsinline preload="auto" aria-hidden="true">
+        <source src="video%20present/Tt.mp4" type="video/mp4">
+    </video>
+    <div class="landing-video-overlay" aria-hidden="true"></div>
     <div class="landing-card">
         <img class="landing-logo" src="who-label-logo.png" alt="Who Label">
         <h1>Who Label</h1>
-        <p>รวมคอร์ดเพลงของ Who Label พร้อมเนื้อเพลง การปรับคีย์ และไฟล์ PDF สำหรับฝึกเล่นเพลง</p>
-        <button class="enter-chords-button" type="button" onclick="openChordApp()">เข้าสู่คอร์ดเพลง</button>
+        <p>กลุ่มแฟนคลับวีทูปเบอร์ที่มาร้องเพลงให้วีทูปเบอร์ ไม่แสวงหาผลกำไร</p>
+        <button class="enter-chords-button" type="button" onclick="openChordApp()">Song chord / lyrics</button>
         <div class="landing-links">
-            <a href="https://www.youtube.com/@WhoLabel" target="_blank" rel="noopener noreferrer">YouTube</a>
+            <a class="youtube-link" href="https://www.youtube.com/@WhoLabel" target="_blank" rel="noopener noreferrer">YouTube</a>
             <a href="https://x.com/WLBD7845" target="_blank" rel="noopener noreferrer">X</a>
-            <a href="https://youtube.com/playlist?list=PLtPlYLj1E1RH4DBUNncO97Jc4t8Mx6C6M" target="_blank" rel="noopener noreferrer">MV songs</a>
+            <a class="mv-link" href="https://youtube.com/playlist?list=PLtPlYLj1E1RH4DBUNncO97Jc4t8Mx6C6M" target="_blank" rel="noopener noreferrer">MV SONG</a>
         </div>
     </div>
 </section>
@@ -1201,6 +1299,7 @@
                 <div class="chord-content-layout">
                     <div>
                         <button class="piano-toggle" id="pianoToggle" type="button" onclick="togglePiano()" aria-expanded="false">open piano</button>
+                        <button class="lyrics-mode-toggle" id="lyricsModeToggle" type="button" onclick="toggleLyricsMode()" aria-pressed="false">อ่านเนื้อเพลง</button>
                         <section class="piano-panel" id="pianoPanel" aria-label="แนะแนวการเล่นเปียโน">
                             <div class="piano-chord-list" id="pianoChordList"></div>
                             <div class="piano-heading" id="pianoHeading">เลือกคอร์ดเพื่อดูโน้ตบนเปียโน</div>
@@ -1393,6 +1492,7 @@ Hey เราก็เดินทางกันมานาน
 
     let pianoOpen = false;
     let selectedPianoChord = '';
+    let lyricsOnly = false;
 
     // Helper to normalize note name
     function normalizeNote(note) {
@@ -1434,7 +1534,9 @@ Hey เราก็เดินทางกันมานาน
         if (quality.includes('dim')) intervals = [0, 3, 6];
         else if (quality.includes('aug')) intervals = [0, 4, 8];
         else if (quality.includes('sus2')) intervals = [0, 2, 7];
-        else if (quality.includes('sus4')) intervals = [0, 5, 7];
+        else if (quality.includes('sus4')) {
+            intervals = quality.includes('maj') ? [0, 4, 5, 7] : [0, 5, 7];
+        }
         else if (quality.startsWith('m') && !quality.startsWith('maj')) intervals = [0, 3, 7];
 
         if (quality.includes('m7')) intervals.push(10);
@@ -1448,6 +1550,60 @@ Hey เราก็เดินทางกันมานาน
         const notes = intervals.map(interval => chromaticScale[(rootIndex + interval) % 12]);
         if (bass && !notes.includes(bass)) notes.unshift(bass);
         return [...new Set(notes)];
+    }
+
+    function getChordVoicing(chord) {
+        const match = chord.match(/^([A-G][b#]?)([^/]*)(?:\/([A-G][b#]?))?$/);
+        if (!match) return new Set();
+
+        const root = normalizeNote(match[1]);
+        const quality = match[2].toLowerCase();
+        const bass = match[3] ? normalizeNote(match[3]) : null;
+        const rootIndex = chromaticScale.indexOf(root);
+        if (rootIndex < 0) return new Set();
+
+        let intervals = [0, 4, 7];
+        if (quality.includes('dim')) intervals = [0, 3, 6];
+        else if (quality.includes('aug')) intervals = [0, 4, 8];
+        else if (quality.includes('sus2')) intervals = [0, 2, 7];
+        else if (quality.includes('sus4')) {
+            intervals = quality.includes('maj') ? [0, 4, 5, 7] : [0, 5, 7];
+        }
+        else if (quality.startsWith('m') && !quality.startsWith('maj')) intervals = [0, 3, 7];
+
+        if (quality.includes('m7')) intervals.push(10);
+        else if (quality.includes('maj7')) intervals.push(11);
+        else if (quality.includes('7')) intervals.push(10);
+        else if (quality.includes('6')) intervals.push(9);
+        if (quality.includes('9')) intervals.push(14);
+        if (quality.includes('11')) intervals.push(17);
+        if (quality.includes('13')) intervals.push(21);
+
+        const voicing = new Set();
+        const chordNotes = intervals.map(interval => ({
+            interval,
+            note: chromaticScale[(rootIndex + interval) % 12]
+        }));
+
+        if (bass) {
+            // A slash chord explicitly requests its bass as the lowest note.
+            const bassIndex = chromaticScale.indexOf(bass);
+            voicing.add(`0:${bass}`);
+            chordNotes.forEach(({ note }) => {
+                if (note === bass) return;
+                const distance = (chromaticScale.indexOf(note) - bassIndex + 12) % 12 || 12;
+                voicing.add(`${Math.floor((bassIndex + distance) / 12)}:${note}`);
+            });
+            return voicing;
+        }
+
+        chordNotes.forEach(({ interval, note }) => {
+            // Keep root-position chord tones in their named order without
+            // forcing sevenths to jump an octave. Only compound extensions rise.
+            const octave = Math.floor((rootIndex + interval) / 12);
+            voicing.add(`${octave}:${note}`);
+        });
+        return voicing;
     }
 
     function renderPiano(chords) {
@@ -1469,7 +1625,7 @@ Hey เราก็เดินทางกันมานาน
         ).join('');
         heading.innerText = `${selectedPianoChord} - โน้ตที่ใช้`;
 
-        const highlightedNotes = new Set(getChordNotes(selectedPianoChord));
+        const highlightedNotes = getChordVoicing(selectedPianoChord);
         const whiteNotes = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
         const blackNotes = [
             { note: 'C#', after: 0 }, { note: 'D#', after: 1 },
@@ -1478,7 +1634,7 @@ Hey เราก็เดินทางกันมานาน
         keyboard.innerHTML = '';
         for (let octave = 0; octave < 2; octave += 1) {
             whiteNotes.forEach(note => {
-                const highlighted = highlightedNotes.has(note);
+                const highlighted = highlightedNotes.has(`${octave}:${note}`);
                 const key = document.createElement('button');
                 key.type = 'button';
                 key.className = `piano-white-key${highlighted ? ' highlighted' : ''}`;
@@ -1489,11 +1645,12 @@ Hey เราก็เดินทางกันมานาน
         }
         for (let octave = 0; octave < 2; octave += 1) {
             blackNotes.forEach(({ note, after }) => {
+                const highlighted = highlightedNotes.has(`${octave}:${note}`);
                 const key = document.createElement('button');
                 key.type = 'button';
-                key.className = `piano-black-key${highlightedNotes.has(note) ? ' highlighted' : ''}`;
+                key.className = `piano-black-key${highlighted ? ' highlighted' : ''}`;
                 key.style.left = `calc(${((octave * 7 + after + 1) * 100 / 14).toFixed(3)}% - 3.5%)`;
-                key.setAttribute('aria-label', `${note} ${highlightedNotes.has(note) ? 'โน้ตในคอร์ด' : ''}`.trim());
+                key.setAttribute('aria-label', `${note} ${highlighted ? 'โน้ตในคอร์ด' : ''}`.trim());
                 key.innerText = note;
                 keyboard.appendChild(key);
             });
@@ -1525,6 +1682,17 @@ Hey เราก็เดินทางกันมานาน
         toggle.classList.toggle('active', pianoOpen);
         toggle.innerText = pianoOpen ? 'closed piano tab' : 'open piano tab';
         toggle.setAttribute('aria-expanded', String(pianoOpen));
+    }
+
+    function toggleLyricsMode() {
+        lyricsOnly = !lyricsOnly;
+        const card = document.querySelector('.chord-viewer-card');
+        const toggle = document.getElementById('lyricsModeToggle');
+        card.classList.toggle('lyrics-only', lyricsOnly);
+        toggle.classList.toggle('active', lyricsOnly);
+        toggle.innerText = lyricsOnly ? 'แสดงคอร์ดและเนื้อเพลง' : 'อ่านเนื้อเพลง';
+        toggle.setAttribute('aria-pressed', String(lyricsOnly));
+        render();
     }
 
     // Calculate current Key Name
@@ -1582,15 +1750,18 @@ Hey เราก็เดินทางกันมานาน
 
         // Parse chords and tags
         let text = rawChords;
+        if (lyricsOnly) text = text.replace(/\s*\/\s*/g, ' ');
 
         text = text.replace(/\[(inst|Intro|Instrumental|Verse \d+|Verse|Pre-Chorus(?: \d+)?|Chorus(?: \d+)?|Outro|Solo|Bridge)\]/gi, (m, tag) => {
             return `<div class="section-tag">${tag}</div>`;
         });
 
         text = text.replace(/\[([A-G][b#]?[^\]]*)\]/g, (match, chord) => {
+            if (lyricsOnly) return '';
             const newChord = transposeChord(chord, semitoneShift);
             return `<span class="chord">${newChord}</span>`;
         });
+        if (lyricsOnly) text = text.replace(/[ \t]*\n[ \t]*(?=\n)/g, '');
 
         document.getElementById('chordDisplay').innerHTML = text;
     }
