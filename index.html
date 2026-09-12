@@ -84,49 +84,56 @@
         }
 
         .landing-page {
-            width: min(100%, 900px);
-            min-height: calc(100vh - 24px);
+            width: calc(100% + 24px);
+            min-height: calc(100vh + 24px);
+            margin: -12px;
+            padding: 24px 12px;
             display: flex;
             align-items: center;
             justify-content: center;
+            background: #242424;
         }
 
         .landing-card {
-            width: 100%;
-            padding: clamp(28px, 7vw, 72px) 24px;
+            width: min(100%, 430px);
+            padding: 34px 18px 30px;
             text-align: center;
-            border: 1px solid var(--card-border);
+            border: 1px solid #3e3e3e;
             border-radius: 28px;
-            background: linear-gradient(145deg, #ffffff 0%, #f3f4f6 100%);
-            box-shadow: 0 16px 45px rgba(17, 24, 39, 0.1);
+            background: #303030;
+            box-shadow: 0 16px 45px rgba(0, 0, 0, 0.28);
         }
 
         .landing-logo {
-            width: min(180px, 42vw);
+            width: 140px;
+            height: 140px;
             aspect-ratio: 1;
-            object-fit: contain;
+            object-fit: cover;
+            border-radius: 50%;
             margin: 0 auto 20px;
+            border: 3px solid #f3f4f6;
         }
 
         .landing-card h1 {
-            color: var(--text-main);
-            font-size: clamp(1.7rem, 5vw, 2.8rem);
-            font-weight: 400;
+            color: #ffffff;
+            font-size: 1.6rem;
+            font-weight: 500;
         }
 
         .landing-card p {
-            max-width: 580px;
-            margin: 12px auto 26px;
-            color: var(--text-muted);
-            font-size: clamp(0.95rem, 2vw, 1.1rem);
-            line-height: 1.8;
+            max-width: 300px;
+            margin: 4px auto 26px;
+            color: #d1d5db;
+            font-size: 0.95rem;
+            line-height: 1.5;
         }
 
         .enter-chords-button {
-            border: 1px solid #9ca3af;
+            width: 100%;
+            border: 0;
             border-radius: 999px;
-            padding: 11px 24px;
-            background: #4b5563;
+            padding: 14px 18px;
+            background: #050505;
             color: #ffffff;
             font: inherit;
             cursor: pointer;
@@ -134,31 +141,39 @@
         }
 
         .enter-chords-button:hover {
-            background: #374151;
-            transform: translateY(-2px);
+            background: #111111;
+            transform: translateY(-1px);
         }
 
         .landing-links {
-            display: flex;
-            justify-content: center;
+            display: grid;
             gap: 10px;
-            flex-wrap: wrap;
-            margin-top: 24px;
+            margin-top: 10px;
         }
 
         .landing-links a {
-            color: var(--text-muted);
-            font-size: 0.85rem;
+            display: block;
+            padding: 14px 18px;
+            border-radius: 999px;
+            background: #050505;
+            color: #ffffff;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: transform 0.2s ease, background 0.2s ease;
+        }
+
+        .landing-links a:hover {
+            background: #111111;
+            transform: translateY(-1px);
         }
 
         body.dark-mode .landing-card {
-            background: linear-gradient(145deg, #1b1c22 0%, #15161b 100%);
-            border-color: #30323a;
-            box-shadow: 0 16px 45px rgba(0, 0, 0, 0.28);
+            background: #303030;
+            border-color: #3e3e3e;
         }
 
         body.dark-mode .landing-card h1 {
-            color: #d1d5db;
+            color: #ffffff;
         }
 
         body.dark-mode .back-home-button {
@@ -170,12 +185,12 @@
         }
 
         body.dark-mode .enter-chords-button {
-            background: #30323a;
-            border-color: #4b5563;
+            background: #050505;
+            border-color: transparent;
         }
 
         body.dark-mode .enter-chords-button:hover {
-            background: #3b3f48;
+            background: #111111;
         }
 
         /* Header Bar */
@@ -538,6 +553,168 @@
             color: var(--chord-color);
             font-family: monospace;
             font-weight: 700;
+        }
+
+        .piano-toggle {
+            margin-bottom: 12px;
+            border: 1px solid #b83b3b;
+            border-radius: 999px;
+            padding: 8px 16px;
+            background: transparent;
+            color: #a92f2f;
+            font: inherit;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+        }
+
+        .piano-toggle.active {
+            background: #b83b3b;
+            color: #ffffff;
+        }
+
+        .piano-panel {
+            max-height: 0;
+            margin-bottom: 0;
+            padding: 0 18px;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(-8px);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            background: #ffffff;
+            box-shadow: 0 6px 18px rgba(17, 24, 39, 0.08);
+            transition: max-height 0.3s ease, margin-bottom 0.3s ease, padding 0.3s ease, opacity 0.25s ease, transform 0.3s ease;
+        }
+
+        .piano-panel.open {
+            max-height: 500px;
+            margin-bottom: 18px;
+            padding: 18px;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .piano-chord-list {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+
+        .piano-chord-button {
+            border: 1px solid #b83b3b;
+            border-radius: 999px;
+            padding: 6px 12px;
+            background: transparent;
+            color: #a92f2f;
+            font: inherit;
+            cursor: pointer;
+        }
+
+        .piano-chord-button.active {
+            background: #b83b3b;
+            color: #ffffff;
+        }
+
+        .piano-heading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 14px;
+            color: var(--text-main);
+            font-size: 1.45rem;
+            font-weight: 500;
+        }
+
+        .piano-keyboard {
+            display: flex;
+            position: relative;
+            height: 190px;
+            overflow: hidden;
+            border: 1px solid #c7cbd1;
+            border-radius: 8px;
+            background: #f8fafc;
+        }
+
+        .piano-white-key {
+            position: relative;
+            flex: 1 1 0;
+            min-width: 34px;
+            border: 1px solid #c7cbd1;
+            border-top: 0;
+            background: #ffffff;
+            color: #303236;
+            font: inherit;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .piano-white-key.highlighted {
+            background: #c94d4d;
+            color: #ffffff;
+        }
+
+        .piano-black-key {
+            position: absolute;
+            top: 0;
+            z-index: 2;
+            width: 7%;
+            height: 112px;
+            border: 1px solid #111827;
+            border-radius: 0 0 6px 6px;
+            background: linear-gradient(#303030, #090909);
+            color: #ffffff;
+            font: inherit;
+            font-size: 0.72rem;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .piano-black-key.highlighted {
+            background: #922f2f;
+        }
+
+        .piano-note-label {
+            position: absolute;
+            right: 0;
+            bottom: 12px;
+            left: 0;
+        }
+
+        body.dark-mode .piano-panel {
+            background: #1b1c22;
+            border-color: #30323a;
+        }
+
+        body.dark-mode .piano-white-key {
+            background: #dfe3e8;
+            color: #303236;
+        }
+
+        body.dark-mode .piano-white-key.highlighted {
+            background: #c94d4d;
+            color: #ffffff;
+        }
+
+        @media (max-width: 600px) {
+            .piano-panel {
+                padding: 0 12px;
+            }
+
+            .piano-panel.open {
+                padding: 12px;
+            }
+
+            .piano-keyboard {
+                height: 155px;
+            }
+
+            .piano-black-key {
+                height: 92px;
+                font-size: 0.62rem;
+            }
         }
 
         /* Chord Content Area */
@@ -944,6 +1121,7 @@
         <div class="landing-links">
             <a href="https://www.youtube.com/@WhoLabel" target="_blank" rel="noopener noreferrer">YouTube</a>
             <a href="https://x.com/WLBD7845" target="_blank" rel="noopener noreferrer">X</a>
+            <a href="https://youtube.com/playlist?list=PLtPlYLj1E1RH4DBUNncO97Jc4t8Mx6C6M" target="_blank" rel="noopener noreferrer">MV songs</a>
         </div>
     </div>
 </section>
@@ -963,7 +1141,7 @@
                 X
             </a>
             <a href="https://youtube.com/playlist?list=PLtPlYLj1E1RH4DBUNncO97Jc4t8Mx6C6M" target="_blank" rel="noopener noreferrer" class="channel-btn">
-                เพลย์ลิสต์รวมเพลงทั้งหมด
+                MV songs
             </a>
         </div>
     </header>
@@ -1022,6 +1200,12 @@
                 </div>
                 <div class="chord-content-layout">
                     <div>
+                        <button class="piano-toggle" id="pianoToggle" type="button" onclick="togglePiano()" aria-expanded="false">open piano</button>
+                        <section class="piano-panel" id="pianoPanel" aria-label="แนะแนวการเล่นเปียโน">
+                            <div class="piano-chord-list" id="pianoChordList"></div>
+                            <div class="piano-heading" id="pianoHeading">เลือกคอร์ดเพื่อดูโน้ตบนเปียโน</div>
+                            <div class="piano-keyboard" id="pianoKeyboard"></div>
+                        </section>
                         <div class="chord-summary" id="chordSummary" aria-label="คอร์ดที่ใช้ในเพลง"></div>
                         <div class="chord-box">
                             <div id="chordDisplay"></div>
@@ -1207,6 +1391,9 @@ Hey เราก็เดินทางกันมานาน
         '[E]': '[E11]', '[F]': '[F6]'
     };
 
+    let pianoOpen = false;
+    let selectedPianoChord = '';
+
     // Helper to normalize note name
     function normalizeNote(note) {
         const flatsMap = { 'Db': 'C#', 'Eb': 'D#', 'Gb': 'F#', 'Ab': 'G#', 'Bb': 'A#' };
@@ -1231,6 +1418,113 @@ Hey เราก็เดินทางกันมานาน
             const newBass = bass ? '/' + transposeNote(bass, shift) : '';
             return newRoot + (ext || '') + newBass;
         });
+    }
+
+    function getChordNotes(chord) {
+        const match = chord.match(/^([A-G][b#]?)([^/]*)(?:\/([A-G][b#]?))?$/);
+        if (!match) return [];
+
+        const root = normalizeNote(match[1]);
+        const quality = match[2].toLowerCase();
+        const bass = match[3] ? normalizeNote(match[3]) : null;
+        const rootIndex = chromaticScale.indexOf(root);
+        if (rootIndex < 0) return [];
+
+        let intervals = [0, 4, 7];
+        if (quality.includes('dim')) intervals = [0, 3, 6];
+        else if (quality.includes('aug')) intervals = [0, 4, 8];
+        else if (quality.includes('sus2')) intervals = [0, 2, 7];
+        else if (quality.includes('sus4')) intervals = [0, 5, 7];
+        else if (quality.startsWith('m') && !quality.startsWith('maj')) intervals = [0, 3, 7];
+
+        if (quality.includes('m7')) intervals.push(10);
+        else if (quality.includes('maj7')) intervals.push(11);
+        else if (quality.includes('7')) intervals.push(10);
+        else if (quality.includes('6')) intervals.push(9);
+        if (quality.includes('9')) intervals.push(14);
+        if (quality.includes('11')) intervals.push(17);
+        if (quality.includes('13')) intervals.push(21);
+
+        const notes = intervals.map(interval => chromaticScale[(rootIndex + interval) % 12]);
+        if (bass && !notes.includes(bass)) notes.unshift(bass);
+        return [...new Set(notes)];
+    }
+
+    function renderPiano(chords) {
+        const list = document.getElementById('pianoChordList');
+        const heading = document.getElementById('pianoHeading');
+        const keyboard = document.getElementById('pianoKeyboard');
+        if (!list || !heading || !keyboard) return;
+
+        if (!chords.length) {
+            list.innerHTML = '';
+            heading.innerText = 'ไม่พบคอร์ดสำหรับเพลงนี้';
+            keyboard.innerHTML = '';
+            return;
+        }
+
+        if (!chords.includes(selectedPianoChord)) selectedPianoChord = chords[0];
+        list.innerHTML = chords.map(chord =>
+            `<button class="piano-chord-button${chord === selectedPianoChord ? ' active' : ''}" type="button" onclick="selectPianoChord('${chord.replace(/'/g, "\\'")}')">${chord}</button>`
+        ).join('');
+        heading.innerText = `${selectedPianoChord} - โน้ตที่ใช้`;
+
+        const highlightedNotes = new Set(getChordNotes(selectedPianoChord));
+        const whiteNotes = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
+        const blackNotes = [
+            { note: 'C#', after: 0 }, { note: 'D#', after: 1 },
+            { note: 'F#', after: 3 }, { note: 'G#', after: 4 }, { note: 'A#', after: 5 }
+        ];
+        keyboard.innerHTML = '';
+        for (let octave = 0; octave < 2; octave += 1) {
+            whiteNotes.forEach(note => {
+                const highlighted = highlightedNotes.has(note);
+                const key = document.createElement('button');
+                key.type = 'button';
+                key.className = `piano-white-key${highlighted ? ' highlighted' : ''}`;
+                key.setAttribute('aria-label', `${note} ${highlighted ? 'โน้ตในคอร์ด' : ''}`.trim());
+                key.innerHTML = `<span class="piano-note-label">${note}</span>`;
+                keyboard.appendChild(key);
+            });
+        }
+        for (let octave = 0; octave < 2; octave += 1) {
+            blackNotes.forEach(({ note, after }) => {
+                const key = document.createElement('button');
+                key.type = 'button';
+                key.className = `piano-black-key${highlightedNotes.has(note) ? ' highlighted' : ''}`;
+                key.style.left = `calc(${((octave * 7 + after + 1) * 100 / 14).toFixed(3)}% - 3.5%)`;
+                key.setAttribute('aria-label', `${note} ${highlightedNotes.has(note) ? 'โน้ตในคอร์ด' : ''}`.trim());
+                key.innerText = note;
+                keyboard.appendChild(key);
+            });
+        }
+    }
+
+    function selectPianoChord(chord) {
+        selectedPianoChord = chord;
+        const song = songs[currentSongKey];
+        const rawChords = song.easyPdfFile && chordVersion === 'hard'
+            ? Object.entries(hardChordMap).reduce((text, [simple, complex]) => text.split(simple).join(complex), song.rawChords)
+            : song.rawChords;
+        const detectedChords = [...rawChords.matchAll(/\[([A-G][b#]?[^\]]*)\]/g)]
+            .map(([, value]) => value)
+            .filter(value => !/^(Intro|inst|Instrumental|Verse|Pre-Chorus|Chorus|Outro|Solo|Bridge)/i.test(value))
+            .map(value => transposeChord(value, semitoneShift));
+        const chords = [...new Set(detectedChords.concat(
+            song.easyPdfFile && chordVersion === 'hard'
+                ? (song.originalChords || []).map(value => transposeChord(value, semitoneShift))
+                : []
+        ))];
+        renderPiano(chords);
+    }
+
+    function togglePiano() {
+        pianoOpen = !pianoOpen;
+        document.getElementById('pianoPanel').classList.toggle('open', pianoOpen);
+        const toggle = document.getElementById('pianoToggle');
+        toggle.classList.toggle('active', pianoOpen);
+        toggle.innerText = pianoOpen ? 'closed piano tab' : 'open piano tab';
+        toggle.setAttribute('aria-expanded', String(pianoOpen));
     }
 
     // Calculate current Key Name
@@ -1284,6 +1578,7 @@ Hey เราก็เดินทางกันมานาน
             `<span class="chord-summary-title">คอร์ดที่ใช้:</span>${chords
                 .map(chord => `<span class="chord-summary-item">${chord}</span>`)
                 .join('')}`;
+        renderPiano(chords);
 
         // Parse chords and tags
         let text = rawChords;
