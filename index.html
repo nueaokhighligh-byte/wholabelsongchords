@@ -398,6 +398,54 @@
             .chord-box { font-size: 0.95rem; }
             .chord { font-size: 1.05rem; }
         }
+    
+        body.dark-mode {
+            --bg-dark: #111827;
+            --card-bg: #1f2937;
+            --card-border: #374151;
+            --primary: #d1d5db;
+            --primary-hover: #e5e7eb;
+            --text-main: #e5e7eb;
+            --text-muted: #9ca3af;
+        }
+
+        body.dark-mode header,
+        body.dark-mode .card,
+        body.dark-mode .control-panel {
+            background: #1f2937;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.28);
+        }
+
+        body.dark-mode header {
+            background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+        }
+
+        body.dark-mode .channel-btn,
+        body.dark-mode .btn-key,
+        body.dark-mode select,
+        body.dark-mode .chord-summary,
+        body.dark-mode .upcoming-song,
+        body.dark-mode .playlist-info {
+            background: #374151;
+            color: #e5e7eb;
+            border-color: #4b5563;
+        }
+
+        body.dark-mode .channel-btn:hover,
+        body.dark-mode .btn-key:hover {
+            background: #4b5563;
+            color: #ffffff;
+        }
+
+        body.dark-mode .card-header {
+            border-bottom-color: #374151;
+        }
+
+        body.dark-mode .chord-summary-item {
+            background: #fff7ed;
+            border-color: #fdba74;
+        }
+
     </style>
 </head>
 <body>
@@ -417,6 +465,7 @@
 
     <!-- Control Panel -->
     <div class="control-panel">
+        <button class="btn-key theme-toggle" id="themeToggle" type="button" onclick="toggleTheme()">โหมดมืด</button>
         <div class="control-group">
             <span class="label-text">เลือกเพลง:</span>
             <select id="songSelect" onchange="switchSong()">
@@ -605,6 +654,15 @@ Hey เราก็เดินทางกันมานาน
         });
 
         document.getElementById('chordDisplay').innerHTML = text;
+    }
+
+
+
+    function toggleTheme() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        document.getElementById('themeToggle').innerText = isDark ? 'โหมดสว่าง' : 'โหมดมืด';
     }
 
     function transpose(amount) {
