@@ -1,0 +1,1210 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Who Label - Chord & Lyrics</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Sarabun:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #ffffff;
+            --card-bg: #ffffff;
+            --card-border: #e5e7eb;
+            --primary: #4b5563;
+            --primary-hover: #374151;
+            --chord-color: #ea580c;
+            --text-main: #4b5563;
+            --text-muted: #6b7280;
+            --accent-red: #6b7280;
+        }ป
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Kanit', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        /* Header Bar */
+        header {
+            background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 20px rgba(17, 24, 39, 0.08);
+        }
+
+        .site-logo {
+            display: block;
+            width: 120px;
+            height: auto;
+            margin: 0 auto;
+        }
+
+        body,
+        body * {
+            font-weight: 400;
+        }
+
+        .card-title,
+        .sidebar-title,
+        .chord-summary-title,
+        .section-tag,
+        .label-text {
+            font-weight: 400;
+        }
+
+        .chord,
+        .chord-summary-item {
+            font-weight: 500;
+        }
+
+        .channel-links {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .channel-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #f3f4f6;
+            color: #4b5563;
+            border: 1px solid #d1d5db;
+            padding: 6px 12px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .channel-btn:hover {
+            background: #e5e7eb;
+            color: #374151;
+            transform: translateY(-1px);
+        }
+
+        .channel-btn.youtube-btn {
+            background: #ff0000;
+            color: #ffffff;
+            border-color: #cc0000;
+            font-weight: 600;
+        }
+
+        .channel-btn.youtube-btn:hover {
+            background: #cc0000;
+            color: #ffffff;
+        }
+
+        .channel-btn.twitter-btn {
+            background: #000000;
+            color: #ffffff;
+            border-color: #000000;
+            font-weight: 600;
+        }
+
+        .channel-btn.twitter-btn:hover {
+            background: #1f2937;
+            color: #ffffff;
+        }
+
+        /* Sticky Control Panel */
+        .control-panel {
+            position: sticky;
+            top: 10px;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            padding: 12px 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 8px 24px rgba(17, 24, 39, 0.1);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .label-text {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        select {
+            background: var(--bg-dark);
+            color: var(--text-main);
+            border: 1px solid var(--card-border);
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            outline: none;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        select:focus {
+            border-color: var(--primary);
+        }
+
+        /* Key Transpose Buttons */
+        .btn-key {
+            background: #f3f4f6;
+            color: var(--text-main);
+            border: 1px solid var(--card-border);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            font-size: 0.9rem;
+        }
+
+        .key-step-button {
+            min-width: 42px;
+            font-size: 1.25rem;
+            line-height: 1;
+        }
+
+        .btn-key:hover {
+            background: var(--primary);
+            color: #ffffff;
+        }
+
+        .btn-key:active {
+            transform: scale(0.95);
+        }
+
+        .key-badge {
+            background: #f3f4f6;
+            color: var(--chord-color);
+            border: 1px solid #d1d5db;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            min-width: 75px;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        /* View Mode Toggle Buttons */
+        .view-toggle {
+            display: flex;
+            background: var(--bg-dark);
+            padding: 3px;
+            border-radius: 8px;
+            border: 1px solid var(--card-border);
+        }
+
+        .toggle-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .toggle-btn.active {
+            background: var(--primary);
+            color: #ffffff;
+        }
+
+        /* Main Grid Layout */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 320px minmax(0, 1fr);
+            gap: 16px;
+        }
+
+        .sidebar {
+            align-self: start;
+            position: sticky;
+            top: 10px;
+        }
+
+        .sidebar-title {
+            margin-bottom: 12px;
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+
+        .sidebar select {
+            width: 100%;
+            margin-top: 6px;
+            font-size: 0.92rem;
+            padding: 10px 12px;
+        }
+
+        .upcoming-song {
+            padding: 8px 10px;
+            margin-top: 7px;
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            background: #f9fafb;
+        }
+
+        .upcoming-song strong {
+            display: block;
+            color: var(--text-main);
+            font-size: 0.82rem;
+        }
+
+        .upcoming-song span {
+            display: block;
+            margin-top: 2px;
+            color: var(--text-muted);
+            font-size: 0.7rem;
+        }
+
+        .content-column {
+            display: grid;
+            gap: 16px;
+        }
+
+        @media (max-width: 899px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                position: static;
+            }
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 4px 16px rgba(17, 24, 39, 0.06);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: 12px;
+            margin-bottom: 16px;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .song-details {
+            display: grid;
+            gap: 4px;
+            align-self: start;
+            padding: 12px;
+            background: #f9fafb;
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            color: var(--text-main);
+        }
+
+        .song-info {
+            margin-bottom: 16px;
+            gap: 10px;
+        }
+
+        .song-info .card-title {
+            margin: 0 0 4px;
+        }
+
+        .song-details strong {
+            color: var(--primary);
+        }
+
+        .song-details a {
+            color: var(--primary);
+        }
+
+        .song-details .highlight-name {
+            display: inline-block;
+            padding: 1px 6px;
+            border-radius: 4px;
+            background: #f97316;
+            color: #ffffff;
+            font-weight: 700;
+        }
+
+        .chord-content-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 240px;
+            gap: 16px;
+            align-items: start;
+        }
+
+        .chord-summary {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+            padding: 12px;
+            background: #f9fafb;
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+        }
+
+        .chord-summary-title {
+            color: var(--text-main);
+            font-weight: 600;
+            margin-right: 4px;
+        }
+
+        .chord-summary-item {
+            display: inline-block;
+            padding: 3px 8px;
+            background: #fff7ed;
+            border: 1px solid a#fdba74;
+            border-radius: 6px;
+            color: var(--chord-color);
+            font-family: monospace;
+            font-weight: 700;
+        }
+
+        /* Chord Content Area */
+        .chord-box {
+            line-height: 2;
+            font-size: 1.05rem;
+            white-space: pre-wrap;
+            font-family: 'Sarabun', sans-serif;
+        }
+
+        .section-tag {
+            display: inline-block;
+            background: #f3f4f6;
+            color: var(--primary);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin: 12px 0 6px 0;
+            font-family: 'Kanit', sans-serif;
+        }
+
+        .chord {
+            color: var(--chord-color);
+            font-weight: 700;
+            font-family: monospace;
+            font-size: 1.15rem;
+            background: #fff7ed;
+            padding: 1px 5px;
+            border-radius: 4px;
+            margin: 0 2px;
+        }
+
+        /* Image View */
+        .img-container {
+            text-align: center;
+        }
+
+        .img-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 4px 12px rgba(17, 24, 39, 0.12);
+        }
+
+        /* YouTube Container */
+        .video-wrapper {
+            position: relative;
+            width: min(100%, 360px);
+            aspect-ratio: 16 / 9;
+            margin: 0 auto;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #111827;
+            border: 1px solid var(--card-border);
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .playlist-info {
+            margin-top: 14px;
+            padding: 12px;
+            background: var(--bg-dark);
+            border-radius: 8px;
+            border: 1px solid var(--card-border);
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .playlist-info a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .playlist-info a:hover {
+            text-decoration: underline;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        body.dark-mode {
+            --bg-dark: #0f1014;
+            --card-bg: #1b1c22;
+            --card-border: #30323a;
+            --primary: #e5e7eb;
+            --primary-hover: #ffffff;
+            --text-main: #d1d5db;
+            --text-muted: #9ca3af;
+        }
+
+        body.dark-mode header,
+        body.dark-mode .card,
+        body.dark-mode .control-panel {
+            background: #1b1c22;
+            color: #d1d5db;
+            border-color: #30323a;
+        }
+
+        body.dark-mode header {
+            background: linear-gradient(135deg, #0f1014 0%, #1b1c22 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        body.dark-mode .site-logo {
+            filter: invert(1);
+        }
+
+        body.dark-mode header::after {
+            content: "";
+            position: absolute;
+            inset: 9px;
+            border: 1px solid rgba(156, 163, 175, 0.24);
+            border-radius: 20px;
+            pointer-events: none;
+        }
+
+        body.dark-mode .channel-btn,
+        body.dark-mode .btn-key,
+        body.dark-mode select,
+        body.dark-mode .chord-summary,
+        body.dark-mode .upcoming-song,
+        body.dark-mode .playlist-info {
+            background: #24262d;
+            color: #d1d5db;
+            border-color: #3a3d46;
+        }
+
+        body.dark-mode .btn-key[onclick="resetKey()"] {
+            background: #24262d !important;
+            color: #ffffff !important;
+            border-color: #6b7280 !important;
+        }
+
+        body.dark-mode .channel-btn:hover,
+        body.dark-mode .btn-key:hover {
+            background: #343740;
+            color: #ffffff;
+        }
+
+        body.dark-mode .channel-btn.youtube-btn,
+        body.dark-mode .channel-btn.youtube-btn:hover {
+            background: #ff0000;
+            color: #ffffff;
+            border-color: #cc0000;
+        }
+
+        body.dark-mode .channel-btn.twitter-btn,
+        body.dark-mode .channel-btn.twitter-btn:hover {
+            background: #000000;
+            color: #ffffff;
+            border-color: #000000;
+        }
+
+        body.dark-mode .label-text,
+        body.dark-mode .upcoming-song span,
+        body.dark-mode .playlist-info {
+            color: #d1d5db;
+        }
+
+        body.dark-mode .song-details {
+            background: #24262d;
+            color: #f3f4f6;
+            border-color: #3a3d46;
+        }
+
+        body.dark-mode .song-details strong,
+        body.dark-mode .song-details a {
+            color: #ffffff;
+        }
+
+        body.dark-mode .song-details .highlight-name {
+            background: #fb923c;
+            color: #111217;
+        }
+
+        body.dark-mode .section-tag {
+            background: #30323a;
+            color: #d1d5db;
+        }
+
+        body.dark-mode #themeToggle,
+        body.dark-mode .btn-key[onclick="resetKey()"] {
+            background: #24262d !important;
+            color: #d1d5db !important;
+            border-color: #4b4f59;
+        }
+
+        /* Keep chord highlighting orange in both themes. */
+        body.dark-mode .chord,
+        body.dark-mode .chord-summary-item {
+            color: #fb923c;
+            background: rgba(234, 88, 12, 0.3);
+            border-color: rgba(253, 186, 116, 0.3);
+            text-shadow: 0 0 1px rgba(0, 0, 0, 0.35);
+        }
+
+        body.dark-mode .video-wrapper {
+            background: #0f1014;
+            border-color: #30323a;
+        }
+
+        body.dark-mode,
+        body.dark-mode body *,
+        body.dark-mode .card-title,
+        body.dark-mode .sidebar-title,
+        body.dark-mode .chord-summary-title,
+        body.dark-mode .section-tag,
+        body.dark-mode .label-text {
+            font-weight: 300;
+        }
+
+        body.dark-mode .song-details strong,
+        body.dark-mode .song-details a,
+        body.dark-mode .key-badge {
+            font-weight: 400;
+        }
+
+        body.dark-mode .chord,
+        body.dark-mode .chord-summary-item {
+            font-weight: 400;
+        }
+
+        @media (max-width: 899px) {
+            .control-panel { padding: 10px; gap: 8px; }
+            .key-badge { min-width: 60px; font-size: 0.85rem; }
+            .btn-key { padding: 5px 8px; font-size: 0.8rem; }
+            .chord-box { font-size: 0.95rem; }
+            .chord { font-size: 1.05rem; }
+            .chord-viewer-card .chord-content-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .chord-viewer-card .song-details {
+                margin-bottom: 16px;
+            }
+
+            .chord-viewer-card .chord-content-layout { grid-template-columns: 1fr; }
+        }
+
+        /* Light theme: thin, curved editorial artwork style. */
+        body:not(.dark-mode) {
+            --bg-dark: #f1f1ec;
+            --card-bg: #f8f8f4;
+            --card-border: #c9c9c2;
+            --primary: #303236;
+            --primary-hover: #1f2023;
+            --text-main: #303236;
+            --text-muted: #5f625f;
+            background:
+                radial-gradient(circle at 92% 8%, rgba(255, 255, 255, 0.8), transparent 28%),
+                #f1f1ec;
+            color: #303236;
+            font-weight: 300;
+        }
+
+        body:not(.dark-mode) body,
+        body:not(.dark-mode) body *,
+        body:not(.dark-mode) .card-title,
+        body:not(.dark-mode) .sidebar-title,
+        body:not(.dark-mode) .chord-summary-title,
+        body:not(.dark-mode) .section-tag,
+        body:not(.dark-mode) .label-text {
+            font-weight: 300;
+        }
+
+        body:not(.dark-mode) header,
+        body:not(.dark-mode) .card,
+        body:not(.dark-mode) .control-panel {
+            position: relative;
+            background: rgba(248, 248, 244, 0.9);
+            border: 1px solid #c9c9c2;
+            border-radius: 26px;
+            box-shadow: 0 2px 0 rgba(48, 50, 54, 0.04);
+        }
+
+        body:not(.dark-mode) header::after,
+        body:not(.dark-mode) .card::after {
+            content: "";
+            position: absolute;
+            inset: 9px;
+            border: 1px solid rgba(95, 98, 95, 0.18);
+            border-radius: 20px;
+            pointer-events: none;
+        }
+
+        body:not(.dark-mode) header {
+            background: #ecece7;
+            padding: 24px;
+            overflow: hidden;
+        }
+
+        body:not(.dark-mode) .site-logo,
+        body.dark-mode .site-logo {
+            aspect-ratio: 1 / 1;
+            object-fit: contain;
+        }
+
+        body:not(.dark-mode) .control-panel {
+            background: rgba(248, 248, 244, 0.94);
+            border-radius: 18px;
+            box-shadow: 0 2px 0 rgba(48, 50, 54, 0.04);
+        }
+
+        body:not(.dark-mode) .channel-btn,
+        body:not(.dark-mode) .btn-key,
+        body:not(.dark-mode) select,
+        body:not(.dark-mode) .upcoming-song,
+        body:not(.dark-mode) .song-details,
+        body:not(.dark-mode) .chord-summary {
+            background: transparent;
+            color: #303236;
+            border: 1px solid #aeb0aa;
+            border-radius: 14px;
+            font-weight: 300;
+        }
+
+        body:not(.dark-mode) .channel-btn {
+            border-radius: 999px;
+        }
+
+        body:not(.dark-mode) .channel-btn.youtube-btn {
+            background: #ff0000;
+            color: #ffffff;
+            border-color: #cc0000;
+        }
+
+        body:not(.dark-mode) .channel-btn.twitter-btn {
+            background: #222326;
+            color: #ffffff;
+            border-color: #222326;
+        }
+
+        body:not(.dark-mode) .btn-key:hover {
+            background: #303236;
+            color: #f8f8f4;
+        }
+
+        body:not(.dark-mode) .key-badge {
+            background: #f8f8f4;
+            color: var(--chord-color);
+            border: 1px solid #aeb0aa;
+            border-radius: 999px;
+            font-weight: 400;
+        }
+
+        body:not(.dark-mode) .card-title {
+            color: #242529;
+            letter-spacing: 0.01em;
+        }
+
+        body:not(.dark-mode) .song-details {
+            color: #303236;
+        }
+
+        body:not(.dark-mode) .song-info {
+        background: transparent;
+        border-color: #aeb0aa;
+        }
+
+        body:not(.dark-mode) .song-details strong,
+        body:not(.dark-mode) .song-details a {
+            color: #303236;
+            font-weight: 400;
+        }
+
+        body:not(.dark-mode) .section-tag {
+            background: #e1e2dc;
+            color: #303236;
+            border-radius: 999px;
+        }
+
+        body:not(.dark-mode) .chord-summary-item,
+        body:not(.dark-mode) .chord {
+            font-weight: 400;
+        }
+
+        body:not(.dark-mode) .video-wrapper {
+            border-radius: 20px;
+            border-color: #aeb0aa;
+            box-shadow: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Header Section -->
+    <header>
+        <img class="site-logo" src="who-label-logo.png" alt="Who Label">
+        <div class="channel-links">
+            <a href="https://www.youtube.com/@WhoLabel" target="_blank" rel="noopener noreferrer" class="channel-btn youtube-btn">
+                YouTube
+            </a>
+            <a href="https://x.com/WLBD7845" target="_blank" rel="noopener noreferrer" class="channel-btn twitter-btn">
+                X
+            </a>
+            <a href="https://youtube.com/playlist?list=PLtPlYLj1E1RH4DBUNncO97Jc4t8Mx6C6M" target="_blank" rel="noopener noreferrer" class="channel-btn">
+                เพลย์ลิสต์รวมเพลงทั้งหมด
+            </a>
+        </div>
+    </header>
+
+    <!-- Control Panel -->
+    <div class="control-panel">
+        <div class="control-group">
+            <span class="label-text">ปรับคีย์:</span>
+            <button class="btn-key key-step-button" onclick="transpose(-1)" aria-label="ลดคีย์ลงหนึ่งเสียง">−</button>
+            <span class="key-badge" id="keyDisplay">Key: A (0)</span>
+            <button class="btn-key key-step-button" onclick="transpose(1)" aria-label="เพิ่มคีย์ขึ้นหนึ่งเสียง">+</button>
+            <button class="btn-key" onclick="resetKey()" style="background:#f3f4f6;">คีย์เดิม</button>
+        </div>
+        <button class="btn-key theme-toggle" id="themeToggle" onclick="toggleTheme()" type="button" aria-label="เปิดโหมดมืด" title="เปิดโหมดมืด">☾</button>
+    </div>
+
+    <!-- Main Content Layout -->
+    <div class="main-grid">
+        <aside class="card sidebar">
+            <h2 class="sidebar-title">เพลงอื่นๆ</h2>
+            <label class="label-text" for="songSelect">เลือกเพลง</label>
+            <select id="songSelect" onchange="switchSong()">
+                <option value="wan_fah_mon">[MYSTIC Fan song] - วันฟ้าหม่น (Overcast)</option>
+                <option value="tok-took-rue-du">[Tsuru Fansong] - ตกทุกฤดู</option>
+            </select>
+            <div id="chordVersionControl" class="chord-version-control">
+                <label class="label-text" for="chordVersion">รูปแบบคอร์ด</label>
+                <select id="chordVersion" onchange="switchChordVersion()">
+                    <option value="hard">original</option>
+                    <option value="easy">basics</option>
+                </select>
+            </div>
+            <div class="upcoming-song">
+                <strong>เพลงใหม่กำลังเตรียม</strong>
+                <span>รออัปเดตเร็วๆ นี้</span>
+            </div>
+            <div class="upcoming-song">
+                <strong>คอร์ดเพลงใหม่</strong>
+                <span>กำลังจัดเตรียมเนื้อหา</span>
+            </div>
+        </aside>
+
+        <div class="content-column">
+            <!-- YouTube Player -->
+            <div class="card">
+                <div class="video-wrapper">
+                    <iframe id="youtubeIframe" src="" title="ตัวอย่างวิดีโอเพลง" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+
+            <!-- Chord Viewer -->
+            <div class="card chord-viewer-card">
+                <div class="song-details song-info">
+                    <h2 class="card-title" id="songTitle">วันฟ้าหม่น - Who Label</h2>
+                    <div id="songDetails"></div>
+                </div>
+                <div class="chord-content-layout">
+                    <div>
+                        <div class="chord-summary" id="chordSummary" aria-label="คอร์ดที่ใช้ในเพลง"></div>
+                        <div class="chord-box">
+                            <div id="chordDisplay"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ปุ่มเปิดไฟล์ PDF ในแท็บใหม่ -->
+<a id="pdfLink" href="Overcast.pdf" target="_blank" class="pdf-btn">
+   📄 เปิดดูไฟล์คอร์ดเพลง (PDF)
+</a>
+
+<script>
+    // Chromatic scale for transposition
+    const chromaticScale = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+
+    // Songs Database
+    const songs = {
+        'wan_fah_mon': {
+            title: '[MYSTIC Fan song] - วันฟ้าหม่น (Overcast)',
+            artist: 'Who Label',
+            vocal: 'Nummue',
+            occasion: 'เนื่องในโอกาสครบรอบ 1 ปี MYSTIC',
+            originalKey: 'A',
+            youtubeId: 'kD-BDlLMnuI',
+            pdfFile: 'PDF/Overcast chord.pdf',
+            rawChords: `[Intro]
+[Amaj7] / [Dmaj7] / [F#m] / [E]
+
+[Verse 1]
+[Amaj7]
+Hey เธอยังจำมันได้รึเปล่า
+[Dmaj7]
+กับเรื่องราวที่เราได้พบ
+[F#m]              [E]
+แค่มองฟ้ามีฝนร่วงหล่นก็คิดขึ้นมา Calling you
+[Amaj7]
+Hey เราก็เดินทางกันมานาน
+[Dmaj7]          [F#m]
+จากวันวานที่ฉันนั้นคิดว่ามันช่างเร็ว
+      [E]
+ก็พึ่งรู้ว่ามันผ่านเป็นปี
+
+[Pre-Chorus]
+      [D]   [E]   [F#m]         [Dbm7]
+ที่แห่งนี้ที่เรา ได้ร่วมสร้างทุกความทรงจำ
+      [D]   [E]   [F#m]
+มีแค่เธอและฉัน จับมือกันแม้ฟ้าไม่สดใส
+      [D]       [E]   [F#m]
+เพราะว่าเธอคือความรัก ที่ยังสถิตอยู่ในใจ
+      [D]       [E]   [F#m]
+ไม่ว่าจะเมื่อไหร่ พวกเราจะอยู่ด้วยกัน
+
+[Chorus]
+[Amaj7]               [Dmaj7]
+ก็เชื่อมั่นในทุกวันว่าเธอกับฉัน จะยังเคียงข้างอยู่
+    [F#m]             [E]
+เป็นรักให้กันจากตรงนี้ เป็นความห่วงใยด้วยรักและหวังดี
+[Amaj7]               [Dmaj7]
+ขอบคุณที่เราได้มาพบกัน จากที่ตรงนั้นสุดขอบฟ้า
+    [F#m]             [E]
+ดูแลตัวเองดีๆนะ เรื่องราวใดๆเรานั้นก็ยังคงจดจำ
+
+[Outro]
+[Amaj7] / [Dmaj7] / [F#m] / [E]
+เรานั้นก็ยังคงจดจำ`
+        },
+        'tok-took-rue-du': {
+            title: '[Tsuru Fansong] - ตกทุกฤดู',
+            artist: 'Who Label',
+            vocal: 'Nummue/Mobie',
+            occasion: 'เนื่องในโอกาสวันคล้ายวันเกิดของ <a href="https://www.youtube.com/@TsururuWorldEnd" target="_blank" rel="noopener noreferrer"><span class="highlight-name">Tsururu</span></a>',
+            originalKey: 'E',
+            youtubeId: '',
+            pdfFile: 'PDF/ตกทุกฤดู chord.pdf',
+            easyPdfFile: 'PDF/ตกทุกฤดู chord basics.pdf',
+            originalChords: ['Em7', 'Cmaj7', 'Gsus2', 'Bm7', 'Dsus4/F#', 'Am7', 'D7', 'Cm6', 'G', 'Cmaj7sus2', 'D', 'Dm7', 'Gmaj7', 'Em', 'G7', 'E11', 'F6', 'B', 'Am'],
+            rawChords: `[Verse 1]
+[Em]              [C]
+ความวุ่นวายของเมืองแห่งนี้
+[G]              [Bm]
+มีที่ใดที่จะสงบ
+[Em]              [C]
+อบอ้าวและยังแออัดเกินไป
+[G]              [D]
+สักพักคงทนไม่ไหว
+
+[Pre-Chorus 1]
+[Am]
+จะให้เสียงเธอกลบทุกความวุ่นวาย
+ความจริงที่โหดร้าย
+[D]
+กลบมันไป มีแค่เสียงเธออยู่ภายในใจ
+[Am]                 [Cm]
+ผ่านคืนวันจนฉันดีขึ้น และความเจ็บปวดได้หายไป
+
+[Chorus 1]
+*
+[G]
+ก่อนจะมีเมฆบนท้องฟ้า
+[D]          [Em]
+ก่อนที่น้ำตาฉันจะรินไหล
+[C]         [Bm]
+เพียงแค่ในวันที่ฝนเป็นสาย
+[Am7]                [D]
+ใจฉันที่วุ่นวาย มันก็เย็นลงเสมอเลย
+[G]
+หากว่าท้องฟ้าเริ่มมืดครึ้ม
+[D]          [Em]       [Dm]
+ฉันจะไม่ลืมว่ามีเมฆฝน
+[G]       [C]       [Bm]       [Em]
+ทำหน้าที่ให้ลมโชยเย็นทุกแห่งหน
+[Am]          [G]
+ให้ความมัวมนของฉันมันค่อยๆ สลายไป
+
+[inst]
+[G] [Am] / [Bm] / [C] [B] / [Em] / [D]
+
+*
+
+[Verse 2]
+[Em]              [C]
+เหนื่อยล้ากาย ขอพิงได้ไหม
+[G]            [Bm]
+วันนี้คงพักกันยาวไป
+[Em]              [C]       [G]       [D]
+แต่ขอเธออยู่ด้วยกันได้ไหม
+
+[Pre-Chorus 2]
+[Am]
+หากว่าจะมีสิ่งใดๆ ที่จะมาแทนที่เธอ
+[D]
+ฉันว่าคงไม่มีอะไรเท่ากับเธอได้หรอก
+[Am]                 [Cm]
+ทุกฤดูที่ต้องการ ขอแค่มีเธอลอยมา
+เคียงข้างท้องฟ้า เพียงแค่นั้นก็พอ
+
+[Bridge]
+[Am]
+โอ๋ เจ้าเมฆตัวน้อย จะลอยล่องไปที่ใดโปรดบอกฉันด้วย
+[D]
+อย่าหายไปแล้วไม่บอกไม่จา ให้ฉันใจหายแบบนี้
+[Bm]          [E]       [E]
+เป็นห่วงเธอแทบทุกวินาที
+[Am]
+ถ้าเธอไปเจออะไรที่มันไม่ดีก็บอกฉันได้เสมอ
+[C]                               [G]
+พร้อมจะดูแลเธอแบบไม่มีข้อแม้อะไร ฉันสัญญา
+[Bm]             [D]
+ฉันสัญญา
+
+[Chorus 2]
+[G]
+วันที่ไม่มีเมฆบนฟ้า วันนั้นฉันคงวิ่งไล่ตามหา
+[D]          [Em]
+เธอหายไปที่ใด ขอเธอกลับมา
+[C]          [Bm]
+เพราะฉันคงไม่อยากจะคิดถึงเธอจนขาดใจ
+[G]                    [D]
+ดีใจที่ยังอยู่ตรงนี้
+[F]                   [B]
+ดีใจทุกทีที่เธอยังทำ
+[Am]                  [Bm]
+ให้ฉันได้สัมผัสละอองความรักทุกวัน
+[Am]          [Bm]
+ห่างกันไปก็คิดถึงกัน
+[Am]                [Cm]
+ห่วงใยเธอแบบแทบทุกวัน`
+        }
+    };
+
+    let currentSongKey = 'wan_fah_mon';
+    let semitoneShift = 0;
+    let chordVersion = 'easy';
+
+    const hardChordMap = {
+        '[Em]': '[Em7]', '[C]': '[Cmaj7]', '[G]': '[Gsus2]', '[Bm]': '[Bm7]',
+        '[D]': '[Dsus4/F#]', '[Am]': '[Am7]', '[Cm]': '[Cm6]', '[Dm]': '[Dm7]', '[G7]': '[G7]',
+        '[E]': '[E11]', '[F]': '[F6]'
+    };
+
+    // Helper to normalize note name
+    function normalizeNote(note) {
+        const flatsMap = { 'Db': 'C#', 'Eb': 'D#', 'Gb': 'F#', 'Ab': 'G#', 'Bb': 'A#' };
+        return flatsMap[note] || note;
+    }
+
+    // Transpose a single note
+    function transposeNote(note, shift) {
+        const cleanNote = normalizeNote(note);
+        const index = chromaticScale.indexOf(cleanNote);
+        if (index === -1) return note;
+
+        let newIndex = (index + shift) % 12;
+        if (newIndex < 0) newIndex += 12;
+        return chromaticScale[newIndex];
+    }
+
+    // Transpose full chord (handles root, extension, slash bass)
+    function transposeChord(chord, shift) {
+        return chord.replace(/([A-G][b#]?)([^/]*)(?:\/([A-G][b#]?))?/g, (match, root, ext, bass) => {
+            const newRoot = transposeNote(root, shift);
+            const newBass = bass ? '/' + transposeNote(bass, shift) : '';
+            return newRoot + (ext || '') + newBass;
+        });
+    }
+
+    // Calculate current Key Name
+    function getCurrentKeyName() {
+        const origKey = songs[currentSongKey].originalKey;
+        return transposeNote(origKey, semitoneShift);
+    }
+
+    // Render song content
+    function render() {
+        const song = songs[currentSongKey];
+        const versionControl = document.getElementById('chordVersionControl');
+        const versionSelect = document.getElementById('chordVersion');
+        const isTwoVersionSong = Boolean(song.easyPdfFile);
+        versionControl.style.display = isTwoVersionSong ? 'block' : 'none';
+        versionSelect.value = isTwoVersionSong ? chordVersion : 'hard';
+        const rawChords = isTwoVersionSong && chordVersion === 'hard'
+            ? Object.entries(hardChordMap).reduce((text, [simple, complex]) => text.split(simple).join(complex), song.rawChords)
+            : song.rawChords;
+        document.getElementById('songTitle').innerText = song.title;
+        document.getElementById('songDetails').innerHTML =
+            `<div><strong>vocal:</strong> ${song.vocal}</div>` +
+            `<div><strong>เรื่องราวเพลง:</strong> ${song.occasion}</div>`;
+        document.getElementById('youtubeIframe').src = song.youtubeId
+            ? `https://www.youtube.com/embed/${song.youtubeId}`
+            : '';
+        document.getElementById('pdfLink').href = isTwoVersionSong && chordVersion === 'easy'
+            ? song.easyPdfFile
+            : song.pdfFile;
+
+        // Key badge text
+        const curKey = getCurrentKeyName();
+        const shiftSign = semitoneShift > 0 ? `+${semitoneShift}` : semitoneShift;
+        document.getElementById('keyDisplay').innerText = `Key: ${curKey} | เปลี่ยนคีย์: ${shiftSign}`;
+
+        const sectionLabels = /^(Intro|inst|Instrumental|Verse(?: \d+)?|Pre-Chorus(?: \d+)?|Chorus(?: \d+)?|Outro|Solo|Bridge)$/i;
+        const detectedChords = [...new Set(
+            [...rawChords.matchAll(/\[([A-G][b#]?[^\]]*)\]/g)]
+                .map(([, chord]) => chord)
+                .filter(chord => !sectionLabels.test(chord))
+                .map(chord => transposeChord(chord, semitoneShift))
+        )];
+        const chords = [...new Set(
+            detectedChords.concat(
+                isTwoVersionSong && chordVersion === 'hard'
+                    ? (song.originalChords || []).map(chord => transposeChord(chord, semitoneShift))
+                    : []
+            )
+        )];
+        document.getElementById('chordSummary').innerHTML =
+            `<span class="chord-summary-title">คอร์ดที่ใช้:</span>${chords
+                .map(chord => `<span class="chord-summary-item">${chord}</span>`)
+                .join('')}`;
+
+        // Parse chords and tags
+        let text = rawChords;
+
+        text = text.replace(/\[(inst|Intro|Instrumental|Verse \d+|Verse|Pre-Chorus(?: \d+)?|Chorus(?: \d+)?|Outro|Solo|Bridge)\]/gi, (m, tag) => {
+            return `<div class="section-tag">${tag}</div>`;
+        });
+
+        text = text.replace(/\[([A-G][b#]?[^\]]*)\]/g, (match, chord) => {
+            const newChord = transposeChord(chord, semitoneShift);
+            return `<span class="chord">${newChord}</span>`;
+        });
+
+        document.getElementById('chordDisplay').innerHTML = text;
+    }
+
+    function transpose(amount) {
+        semitoneShift = Math.max(-7, Math.min(7, semitoneShift + amount));
+        render();
+    }
+
+    function resetKey() {
+        semitoneShift = 0;
+        render();
+    }
+
+    function switchSong() {
+        currentSongKey = document.getElementById('songSelect').value;
+        semitoneShift = 0;
+        chordVersion = 'easy';
+        render();
+    }
+
+    function switchChordVersion() {
+        chordVersion = document.getElementById('chordVersion').value;
+        semitoneShift = 0;
+        render();
+    }
+    function toggleTheme() {
+        const isDark = document.body.classList.toggle('dark-mode');
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        const themeToggle = document.getElementById('themeToggle');
+        themeToggle.innerText = isDark ? '☀' : '☾';
+        themeToggle.setAttribute('aria-label', isDark ? 'เปิดโหมดสว่าง' : 'เปิดโหมดมืด');
+        themeToggle.title = isDark ? 'เปิดโหมดสว่าง' : 'เปิดโหมดมืด';
+    }
+
+    function setMode(mode) {
+        const textV = document.getElementById('textView');
+        const imgV = document.getElementById('imgView');
+        const btnT = document.getElementById('btnModeText');
+        const btnI = document.getElementById('btnModeImg');
+
+        if (mode === 'text') {
+            textV.classList.remove('hidden');
+            imgV.classList.add('hidden');
+            btnT.classList.add('active');
+            btnI.classList.remove('active');
+        } else {
+            textV.classList.add('hidden');
+            imgV.classList.remove('hidden');
+            btnT.classList.remove('active');
+            btnI.classList.add('active');
+        }
+    }
+
+    // Initial Load
+    if (localStorage.getItem('theme') === 'dark') {
+        document.body.classList.add('dark-mode');
+        document.getElementById('themeToggle').innerText = '☀';
+        document.getElementById('themeToggle').setAttribute('aria-label', 'เปิดโหมดสว่าง');
+        document.getElementById('themeToggle').title = 'เปิดโหมดสว่าง';
+    }
+    render();
+</script>
+
+</body>
+</html>
