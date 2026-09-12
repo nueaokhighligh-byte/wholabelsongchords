@@ -49,6 +49,135 @@
             max-width: 1200px;
         }
 
+        #chordApp {
+            display: none;
+            width: 100%;
+        }
+
+        .back-home-button {
+            display: inline-flex;
+            align-items: center;
+            margin: 0 0 10px 2px;
+            padding: 0;
+            border: 0;
+            border-radius: 12px;
+            background: transparent;
+            cursor: pointer;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+
+        .back-home-button img {
+            display: block;
+            width: 200px;
+            height: 200px;
+            aspect-ratio: 1;
+            object-fit: contain;
+        }
+
+        .back-home-button:hover {
+            transform: translateX(-2px);
+            opacity: 0.78;
+        }
+
+        #pdfLink {
+            display: none;
+        }
+
+        .landing-page {
+            width: min(100%, 900px);
+            min-height: calc(100vh - 24px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .landing-card {
+            width: 100%;
+            padding: clamp(28px, 7vw, 72px) 24px;
+            text-align: center;
+            border: 1px solid var(--card-border);
+            border-radius: 28px;
+            background: linear-gradient(145deg, #ffffff 0%, #f3f4f6 100%);
+            box-shadow: 0 16px 45px rgba(17, 24, 39, 0.1);
+        }
+
+        .landing-logo {
+            width: min(180px, 42vw);
+            aspect-ratio: 1;
+            object-fit: contain;
+            margin: 0 auto 20px;
+        }
+
+        .landing-card h1 {
+            color: var(--text-main);
+            font-size: clamp(1.7rem, 5vw, 2.8rem);
+            font-weight: 400;
+        }
+
+        .landing-card p {
+            max-width: 580px;
+            margin: 12px auto 26px;
+            color: var(--text-muted);
+            font-size: clamp(0.95rem, 2vw, 1.1rem);
+            line-height: 1.8;
+        }
+
+        .enter-chords-button {
+            border: 1px solid #9ca3af;
+            border-radius: 999px;
+            padding: 11px 24px;
+            background: #4b5563;
+            color: #ffffff;
+            font: inherit;
+            cursor: pointer;
+            transition: transform 0.2s ease, background 0.2s ease;
+        }
+
+        .enter-chords-button:hover {
+            background: #374151;
+            transform: translateY(-2px);
+        }
+
+        .landing-links {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 24px;
+        }
+
+        .landing-links a {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        body.dark-mode .landing-card {
+            background: linear-gradient(145deg, #1b1c22 0%, #15161b 100%);
+            border-color: #30323a;
+            box-shadow: 0 16px 45px rgba(0, 0, 0, 0.28);
+        }
+
+        body.dark-mode .landing-card h1 {
+            color: #d1d5db;
+        }
+
+        body.dark-mode .back-home-button {
+            background: transparent;
+        }
+
+        body.dark-mode .back-home-button img {
+            filter: invert(1);
+        }
+
+        body.dark-mode .enter-chords-button {
+            background: #30323a;
+            border-color: #4b5563;
+        }
+
+        body.dark-mode .enter-chords-button:hover {
+            background: #3b3f48;
+        }
+
         /* Header Bar */
         header {
             background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
@@ -140,8 +269,8 @@
         /* Sticky Control Panel */
         .control-panel {
             position: sticky;
-            top: 10px;
-            z-index: 100;
+            top: 12px;
+            z-index: 1000;
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(8px);
             border: 1px solid var(--card-border);
@@ -154,6 +283,7 @@
             gap: 12px;
             align-items: center;
             justify-content: space-between;
+            isolation: isolate;
         }
 
         .control-group {
@@ -642,7 +772,7 @@
         }
 
         @media (max-width: 899px) {
-            .control-panel { padding: 10px; gap: 8px; }
+            .control-panel { top: 8px; padding: 10px; gap: 8px; }
             .key-badge { min-width: 60px; font-size: 0.85rem; }
             .btn-key { padding: 5px 8px; font-size: 0.8rem; }
             .chord-box { font-size: 0.95rem; }
@@ -685,8 +815,7 @@
         }
 
         body:not(.dark-mode) header,
-        body:not(.dark-mode) .card,
-        body:not(.dark-mode) .control-panel {
+        body:not(.dark-mode) .card {
             position: relative;
             background: rgba(248, 248, 244, 0.9);
             border: 1px solid #c9c9c2;
@@ -717,6 +846,8 @@
         }
 
         body:not(.dark-mode) .control-panel {
+            position: sticky;
+            top: 12px;
             background: rgba(248, 248, 244, 0.94);
             border-radius: 18px;
             box-shadow: 0 2px 0 rgba(48, 50, 54, 0.04);
@@ -804,10 +935,26 @@
 </head>
 <body>
 
-<div class="container">
+<section class="landing-page" id="landingPage">
+    <div class="landing-card">
+        <img class="landing-logo" src="who-label-logo.png" alt="Who Label">
+        <h1>Who Label</h1>
+        <p>รวมคอร์ดเพลงของ Who Label พร้อมเนื้อเพลง การปรับคีย์ และไฟล์ PDF สำหรับฝึกเล่นเพลง</p>
+        <button class="enter-chords-button" type="button" onclick="openChordApp()">เข้าสู่คอร์ดเพลง</button>
+        <div class="landing-links">
+            <a href="https://www.youtube.com/@WhoLabel" target="_blank" rel="noopener noreferrer">YouTube</a>
+            <a href="https://x.com/WLBD7845" target="_blank" rel="noopener noreferrer">X</a>
+        </div>
+    </div>
+</section>
+
+<div class="container" id="chordApp">
+    <button class="back-home-button" type="button" onclick="backToHome()" aria-label="กลับหน้าหลัก">
+        <img src="Who Label head web.png" alt="กลับหน้าหลัก">
+    </button>
+
     <!-- Header Section -->
     <header>
-        <img class="site-logo" src="who-label-logo.png" alt="Who Label">
         <div class="channel-links">
             <a href="https://www.youtube.com/@WhoLabel" target="_blank" rel="noopener noreferrer" class="channel-btn youtube-btn">
                 YouTube
@@ -1182,6 +1329,20 @@ Hey เราก็เดินทางกันมานาน
         themeToggle.innerText = isDark ? '☀' : '☾';
         themeToggle.setAttribute('aria-label', isDark ? 'เปิดโหมดสว่าง' : 'เปิดโหมดมืด');
         themeToggle.title = isDark ? 'เปิดโหมดสว่าง' : 'เปิดโหมดมืด';
+    }
+
+    function openChordApp() {
+        document.getElementById('landingPage').style.display = 'none';
+        document.getElementById('chordApp').style.display = 'block';
+        document.getElementById('pdfLink').style.display = 'inline-flex';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function backToHome() {
+        document.getElementById('chordApp').style.display = 'none';
+        document.getElementById('landingPage').style.display = 'flex';
+        document.getElementById('pdfLink').style.display = 'none';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function setMode(mode) {
