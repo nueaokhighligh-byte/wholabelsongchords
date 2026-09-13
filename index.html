@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>คอร์ดเพลงตกทุกฤดู และ วันฟ้าหม่น | Who Label</title>
+    <title>Who Label</title>
     <meta name="description" content="รวมคอร์ดเพลง Who Label: ตกทุกฤดู และ วันฟ้าหม่น (Overcast) พร้อมเนื้อเพลง ปรับคีย์ และไฟล์ PDF">
     <meta name="keywords" content="คอร์ดเพลงตกทุกฤดู, ตกทุกฤดู คอร์ด, คอร์ดเพลงวันฟ้าหม่น, วันฟ้าหม่น Overcast, Who Label คอร์ดเพลง">
     <link rel="canonical" href="https://wholabel.github.io/wholabelsongchords/">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="คอร์ดเพลงตกทุกฤดู และ วันฟ้าหม่น | Who Label">
+    <meta property="og:title" content="Who Label">
     <meta property="og:description" content="รวมคอร์ดเพลง Who Label พร้อมเนื้อเพลง ปรับคีย์ และไฟล์ PDF">
     <meta property="og:url" content="https://wholabel.github.io/wholabelsongchords/">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -97,7 +97,25 @@
             background: #242424;
         }
 
-        .landing-background-video,
+        .landing-page.entering {
+            animation: landing-fade-in 1.8s ease both;
+        }
+
+        .landing-page.entering .landing-video-overlay {
+            animation: landing-overlay-fade 2.2s ease both;
+        }
+
+        @keyframes landing-fade-in {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes landing-overlay-fade {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .landing-video-split,
         .landing-video-overlay {
             position: absolute;
             inset: 0;
@@ -106,9 +124,42 @@
             pointer-events: none;
         }
 
-        .landing-background-video {
+        .landing-video-split {
             z-index: -2;
+            overflow: hidden;
+        }
+
+        .landing-background-video {
+            position: absolute;
+            top: 0;
+            width: 50%;
+            height: 100%;
             object-fit: cover;
+        }
+
+        .landing-background-video-left {
+            left: 0;
+        }
+
+        .landing-background-video-right {
+            right: 0;
+        }
+
+        .landing-video-seam {
+            position: absolute;
+            z-index: 1;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 16%;
+            transform: translateX(-50%);
+            background: linear-gradient(
+                90deg,
+                rgba(0, 0, 0, 0),
+                rgba(0, 0, 0, 0.38) 35%,
+                rgba(0, 0, 0, 0.38) 65%,
+                rgba(0, 0, 0, 0)
+            );
         }
 
         .landing-video-overlay {
@@ -235,6 +286,13 @@
         body.dark-mode .landing-card {
             background: rgba(255, 255, 255, 0.07);
             border-color: rgba(255, 255, 255, 0.28);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .landing-page.entering,
+            .landing-page.entering .landing-video-overlay {
+                animation: none;
+            }
         }
 
         body.dark-mode .landing-card h1 {
@@ -1207,9 +1265,15 @@
 <body>
 
 <section class="landing-page" id="landingPage">
-    <video class="landing-background-video" autoplay muted loop playsinline preload="auto" aria-hidden="true">
-        <source src="Tt.web.mp4" type="video/mp4">
-    </video>
+    <div class="landing-video-split" aria-hidden="true">
+        <video class="landing-background-video landing-background-video-left" autoplay muted loop playsinline preload="auto">
+            <source src="video present/Tt.web.mp4" type="video/mp4">
+        </video>
+        <video class="landing-background-video landing-background-video-right" autoplay muted loop playsinline preload="auto">
+            <source src="video present/Bridge.mp4" type="video/mp4">
+        </video>
+        <div class="landing-video-seam"></div>
+    </div>
     <div class="landing-video-overlay" aria-hidden="true"></div>
     <div class="landing-card">
         <img class="landing-logo" src="who-label-logo.png" alt="Who Label">
@@ -1262,6 +1326,7 @@
             <h2 class="sidebar-title">เพลงอื่นๆ</h2>
             <label class="label-text" for="songSelect">เลือกเพลง</label>
             <select id="songSelect" onchange="switchSong()">
+                <option value="">-- กรุณาเลือกเพลง --</option>
                 <option value="wan_fah_mon">[MYSTIC Fan song] - วันฟ้าหม่น (Overcast)</option>
                 <option value="tok-took-rue-du">[Tsuru Fansong] - ตกทุกฤดู</option>
             </select>
@@ -1466,13 +1531,13 @@ Hey เราก็เดินทางกันมานาน
 [D]          [Em]
 เธอหายไปที่ใด ขอเธอกลับมา
 [C]          [Bm]
-เพราะฉันคงไม่อยากจะคิดถึง(จนขาดใจ)
+เพราะฉันคงไม่อยากจะคิดถึงเธอจนขาดใจ
 [G]                    [D]
-ดีใจที่ยังอยู่ตรงนี้(ขอบคุณนะที่ได้เจอ)
+ดีใจที่ยังอยู่ตรงนี้
 [F]                   [B]
-ดีใจทุกทีที่เธอยังทำ(วันนี้คิดถึงฉันไหม)
+ดีใจทุกทีที่เธอยังทำ
 [Am]                  [Bm]
-ให้ฉันได้สัมผัสละอองความรักทุกวัน(เธอทำให้ฉันชื่นใจ)
+ให้ฉันได้สัมผัสละอองความรักทุกวัน
 [Am]          [Bm]
 ห่างกันไปก็คิดถึงกัน
 [Am]                [Cm]
@@ -1480,7 +1545,12 @@ Hey เราก็เดินทางกันมานาน
         }
     };
 
-    let currentSongKey = 'wan_fah_mon';
+    const songUrlNames = {
+        wan_fah_mon: 'วันฟ้าหม่น',
+        'tok-took-rue-du': 'ตกทุกฤดู'
+    };
+
+    let currentSongKey = null;
     let semitoneShift = 0;
     let chordVersion = 'easy';
 
@@ -1706,6 +1776,20 @@ Hey เราก็เดินทางกันมานาน
         const song = songs[currentSongKey];
         const versionControl = document.getElementById('chordVersionControl');
         const versionSelect = document.getElementById('chordVersion');
+        const pdfLink = document.getElementById('pdfLink');
+        if (!song) {
+            versionControl.style.display = 'none';
+            versionSelect.value = 'hard';
+            document.getElementById('songTitle').innerText = 'เลือกเพลงเพื่อเริ่มต้น';
+            document.getElementById('songDetails').innerHTML = '<div>กรุณาเลือกเพลงจากรายการด้านซ้าย</div>';
+            document.getElementById('youtubeIframe').src = '';
+            document.getElementById('keyDisplay').innerText = 'ยังไม่ได้เลือกเพลง';
+            document.getElementById('chordSummary').innerHTML = '';
+            document.getElementById('chordDisplay').innerHTML = '<p>เลือกเพลงเพื่อดูคอร์ดและเนื้อเพลง</p>';
+            renderPiano([]);
+            pdfLink.style.display = 'none';
+            return;
+        }
         const isTwoVersionSong = Boolean(song.easyPdfFile);
         versionControl.style.display = isTwoVersionSong ? 'block' : 'none';
         versionSelect.value = isTwoVersionSong ? chordVersion : 'hard';
@@ -1719,9 +1803,10 @@ Hey เราก็เดินทางกันมานาน
         document.getElementById('youtubeIframe').src = song.youtubeId
             ? `https://www.youtube.com/embed/${song.youtubeId}`
             : '';
-        document.getElementById('pdfLink').href = isTwoVersionSong && chordVersion === 'easy'
+        pdfLink.href = isTwoVersionSong && chordVersion === 'easy'
             ? song.easyPdfFile
             : song.pdfFile;
+        pdfLink.style.display = 'inline-flex';
 
         // Key badge text
         const curKey = getCurrentKeyName();
@@ -1777,9 +1862,18 @@ Hey เราก็เดินทางกันมานาน
     }
 
     function switchSong() {
-        currentSongKey = document.getElementById('songSelect').value;
+        currentSongKey = document.getElementById('songSelect').value || null;
         semitoneShift = 0;
         chordVersion = 'easy';
+        if (currentSongKey) {
+            updateSongUrl();
+            updatePageTitle(Boolean(currentSongKey));
+        } else {
+            const url = new URL(window.location.href);
+            url.searchParams.delete('song');
+            window.history.pushState({ home: true }, '', `${url.pathname}${url.search}${url.hash}`);
+            updatePageTitle(false);
+        }
         render();
     }
 
@@ -1787,6 +1881,60 @@ Hey เราก็เดินทางกันมานาน
         chordVersion = document.getElementById('chordVersion').value;
         semitoneShift = 0;
         render();
+    }
+
+    function updateSongUrl(replace = false) {
+        const url = new URL(window.location.href);
+        url.searchParams.set('song', songUrlNames[currentSongKey] || currentSongKey);
+        url.searchParams.delete('view');
+        window.history[replace ? 'replaceState' : 'pushState'](
+            { song: currentSongKey },
+            '',
+            `${url.pathname}${url.search}${url.hash}`
+        );
+    }
+
+    function updateChordViewUrl(replace = false) {
+        const url = new URL(window.location.href);
+        url.searchParams.delete('song');
+        url.searchParams.set('view', 'chords');
+        window.history[replace ? 'replaceState' : 'pushState'](
+            { view: 'chords' },
+            '',
+            `${url.pathname}${url.search}${url.hash}`
+        );
+    }
+
+    function updatePageTitle(isSongPage) {
+        document.title = isSongPage
+            ? `${songs[currentSongKey].title} | Who Label`
+            : 'Who Label';
+    }
+
+    function loadSongFromUrl() {
+        const requestedSong = new URLSearchParams(window.location.search).get('song');
+        const requestedSongKey = Object.entries(songUrlNames).find(([, name]) => name === requestedSong)?.[0]
+            || requestedSong;
+        const hasValidSong = requestedSongKey && Object.prototype.hasOwnProperty.call(songs, requestedSongKey);
+        if (hasValidSong) {
+            currentSongKey = requestedSongKey;
+        }
+        const songSelect = document.getElementById('songSelect');
+        songSelect.value = currentSongKey || '';
+        if (hasValidSong) {
+            updateSongUrl(true);
+        } else {
+            currentSongKey = null;
+            songSelect.value = '';
+            const url = new URL(window.location.href);
+            url.searchParams.delete('song');
+            window.history.replaceState(
+                { home: true },
+                '',
+                `${url.pathname}${url.search}${url.hash}`
+            );
+        }
+        return Boolean(hasValidSong);
     }
     function toggleTheme() {
         const isDark = document.body.classList.toggle('dark-mode');
@@ -1797,17 +1945,46 @@ Hey เราก็เดินทางกันมานาน
         themeToggle.title = isDark ? 'เปิดโหมดสว่าง' : 'เปิดโหมดมืด';
     }
 
-    function openChordApp() {
+    function openChordApp(updateUrl = true) {
+        const hasSong = new URLSearchParams(window.location.search).has('song');
+        if (!hasSong) {
+            currentSongKey = null;
+            document.getElementById('songSelect').value = '';
+            if (updateUrl) updateChordViewUrl();
+        }
         document.getElementById('landingPage').style.display = 'none';
         document.getElementById('chordApp').style.display = 'block';
-        document.getElementById('pdfLink').style.display = 'inline-flex';
+        render();
+        updatePageTitle(Boolean(currentSongKey));
         window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function showLandingPage() {
+        const landingPage = document.getElementById('landingPage');
+        landingPage.style.display = 'flex';
+        landingPage.classList.remove('entering');
+        void landingPage.offsetWidth;
+        landingPage.classList.add('entering');
+        document.querySelectorAll('.landing-background-video').forEach(video => {
+            video.play().catch(error => {
+                console.warn('Landing video autoplay was blocked:', error);
+            });
+        });
     }
 
     function backToHome() {
         document.getElementById('chordApp').style.display = 'none';
-        document.getElementById('landingPage').style.display = 'flex';
+        showLandingPage();
         document.getElementById('pdfLink').style.display = 'none';
+        updatePageTitle(false);
+        const url = new URL(window.location.href);
+        url.searchParams.delete('song');
+        url.searchParams.delete('view');
+        window.history.pushState(
+            { home: true },
+            '',
+            `${url.pathname}${url.search}${url.hash}`
+        );
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
@@ -1837,7 +2014,29 @@ Hey เราก็เดินทางกันมานาน
         document.getElementById('themeToggle').setAttribute('aria-label', 'เปิดโหมดสว่าง');
         document.getElementById('themeToggle').title = 'เปิดโหมดสว่าง';
     }
+    const hasSongDeepLink = loadSongFromUrl();
+    const hasChordView = new URLSearchParams(window.location.search).get('view') === 'chords';
     render();
+    if (hasSongDeepLink) {
+        openChordApp(false);
+    } else if (hasChordView) {
+        openChordApp(false);
+    } else {
+        updatePageTitle(false);
+        showLandingPage();
+    }
+    window.addEventListener('popstate', () => {
+        const changedSong = loadSongFromUrl();
+        const changedToChordView = new URLSearchParams(window.location.search).get('view') === 'chords';
+        render();
+        if (changedSong || changedToChordView) {
+            openChordApp(false);
+        } else {
+            document.getElementById('chordApp').style.display = 'none';
+            showLandingPage();
+            updatePageTitle(false);
+        }
+    });
 </script>
 
 </body>
